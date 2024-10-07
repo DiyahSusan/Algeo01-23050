@@ -1,5 +1,13 @@
 package ADTMatrix;
 
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+import Function.*;
+
+
 public class Matrix{
 
     public double matrix[][];
@@ -125,7 +133,100 @@ public class Matrix{
         return sum;
 
     }
+
+    //menjumlahkan semua hasil perkalian elemen dari 2 kolom yang berbeda
+    public static double sumMultiplyCol(Matrix m, int a, int b){
+        double sum;
+        int i;
+
+        for (i=0; i<m.row; i++){
+            sum = sum + (m.matrix[i][a] * m.matrix[i][b]);
+        }
+
+        return sum;
+    }
+
+    //menjumlahkan semua hasil perkalian elemen dari 2 baris yang berbeda
+    public static double sumMultiplyRow(Matrix m, int a, int b){
+        double sum;
+        int i;
+
+        for (i=0; i<m.col; i++){
+            sum = sum + (m.matrix[a][i] * m.matrix[b][i]);
+        }
+
+        return sum;
+    }
     
+    //menambahkan baris
+    public static Matrix addRow(Matrix m, double[] row){
+        Matrix resMatrix;
+        double[][] tempMatrix;
+        int i,j;
+
+        tempMatrix = new double[m.row+1][m.col];
+
+        for (i=0; i<m.row; i++){
+            for (j=0; j<m.col; j++){
+                tempMatrix[i][j] = m.matrix[i][j];
+            }
+        }
+
+        for (j=0; j<m.col; j++){
+            tempMatrix[m.row][j] = row[j];
+        }
+
+        resMatrix = new toMatrix(tempMatrix, m.row+1, m.col);
+        return resMatrix;
+    }
+
+    //menambahkan kolom
+    public static Matrix addCol(Matrix m, double[] col){
+        Matrix resMatrix;
+        double[][] tempMatrix;
+        int i,j;
+
+        tempMatrix = new double[m.row][m.col+1];
+
+        for (i=0; i<m.row; i++){
+            for (j=0; j<m.col; j++){
+                tempMatrix[i][j] = m.matrix[i][j];
+            }
+        }
+
+        for (i=0; i<m.row; i++){
+            tempMatrix[i][m.col] = col[i];
+        }
+
+        resMatrix = new toMatrix(tempMatrix, m.row, m.col+1);
+        return resMatrix;
+    }
+
+    //mengecek bila matriks memiliki banyak solusi dengan prekondisi matriks sudah berbentuk matriks oselon
+    public static boolean isManySolution(Matrix m){
+        boolean isAllZero;
+        isAllZero = True;
+
+        for (i=0; i<m.col; i++){
+            if(m.matrix[m.row-1][i]!=0){
+                isAllZero = False;
+            }
+        }
+        return isAllZero;
+    }
+
+    //mengecek bila matriks tidak memiliki solusi dengan prekondisi matriks sudah berbentuk matriks oselon
+    public static boolean isNoSolution(Matrix m){
+        boolean isAllZero;
+        isAllZero = True;
+
+        for (i=0; i<m.col-1; i++){
+            if(m.matrix[m.row-1][i]!=0){
+                isAllZero = False;
+            }
+        }
+        return (isAllZero && (m.matrix[m.row-1][m.col-1]!=0)) ;
+    }
 
 
 
