@@ -16,7 +16,7 @@ public class Matrix{
 
     public double MARK = Double.NaN;
 
-    public void toMatrix (double a[][], int row, int col){
+    public void toMatrix (double a[][]z, int row, int col){
         this.matrix = a;
         this.row = row;
         this.col = col;
@@ -145,27 +145,23 @@ public class Matrix{
     }
 
     //menjumlahkan semua hasil perkalian elemen dari 2 kolom yang berbeda
-    public static double sumMultiplyCol(Matrix m, int a, int b){
-        double sum = 0;
+    public void sumMultiplyCol(int c1, int c2, int multiplier){
         int i;
 
         for (i=0; i<m.row; i++){
-            sum = sum + (m.matrix[i][a] * m.matrix[i][b]);
+            this.matrix[i][c1] = this.matrix[i][c1] (multiplier * this.matrix[i][c2]);
         }
 
         return sum;
     }
 
     //menjumlahkan semua hasil perkalian elemen dari 2 baris yang berbeda
-    public static double sumMultiplyRow(Matrix m, int a, int b){
-        double sum = 0;
+    public void sumMultiplyRow(int r1, int r2, int multiplier){
         int i;
 
         for (i=0; i<m.col; i++){
-            sum = sum + (m.matrix[a][i] * m.matrix[b][i]);
+            this.matrix[r1][i] = this.matrix[r1][i] + (multiplier * this.matrix[r2][i]);
         }
-
-        return sum;
     }
     
     //menambahkan baris
