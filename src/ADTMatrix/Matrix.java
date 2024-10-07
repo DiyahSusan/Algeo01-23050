@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
-import Function.*;
+//import Function.*;
 
 
 public class Matrix{
@@ -16,7 +16,7 @@ public class Matrix{
 
     public double MARK = Double.NaN;
 
-    public void toMatrix(double a[][], int row, int col){
+    public void toMatrix (double a[][], int row, int col){
         this.matrix = a;
         this.row = row;
         this.col = col;
@@ -89,7 +89,7 @@ public class Matrix{
         
     }
 
-    public static Matrix multiplyRow(Matrix m1, Matrix m2){
+    public static Matrix multiplyMatrix(Matrix m1, Matrix m2){
         int i, j, k;
         double temp;
         Matrix result;
@@ -110,6 +110,16 @@ public class Matrix{
             }
         }
         return result;
+    }
+
+    public void multiplyRow(int row, double pengali){
+        int i = 0;
+        while(i<this.col){
+
+            this.matrix[row][i] *= pengali;
+
+            i+=1;
+        }
     }
 
     public static double sumRow(Matrix m, int row){
@@ -136,7 +146,7 @@ public class Matrix{
 
     //menjumlahkan semua hasil perkalian elemen dari 2 kolom yang berbeda
     public static double sumMultiplyCol(Matrix m, int a, int b){
-        double sum;
+        double sum = 0;
         int i;
 
         for (i=0; i<m.row; i++){
@@ -148,7 +158,7 @@ public class Matrix{
 
     //menjumlahkan semua hasil perkalian elemen dari 2 baris yang berbeda
     public static double sumMultiplyRow(Matrix m, int a, int b){
-        double sum;
+        double sum = 0;
         int i;
 
         for (i=0; i<m.col; i++){
@@ -160,7 +170,7 @@ public class Matrix{
     
     //menambahkan baris
     public static Matrix addRow(Matrix m, double[] row){
-        Matrix resMatrix;
+        Matrix resMatrix = new Matrix();
         double[][] tempMatrix;
         int i,j;
 
@@ -176,13 +186,13 @@ public class Matrix{
             tempMatrix[m.row][j] = row[j];
         }
 
-        resMatrix = new toMatrix(tempMatrix, m.row+1, m.col);
+        resMatrix.toMatrix(tempMatrix, m.row+1, m.col);
         return resMatrix;
     }
 
     //menambahkan kolom
     public static Matrix addCol(Matrix m, double[] col){
-        Matrix resMatrix;
+        Matrix resMatrix = new Matrix();
         double[][] tempMatrix;
         int i,j;
 
@@ -198,36 +208,73 @@ public class Matrix{
             tempMatrix[i][m.col] = col[i];
         }
 
-        resMatrix = new toMatrix(tempMatrix, m.row, m.col+1);
+        resMatrix.toMatrix(tempMatrix, m.row, m.col+1);
         return resMatrix;
     }
 
     //mengecek bila matriks memiliki banyak solusi dengan prekondisi matriks sudah berbentuk matriks oselon
     public static boolean isManySolution(Matrix m){
         boolean isAllZero;
-        isAllZero = True;
+        int i;
+        isAllZero = true;
 
         for (i=0; i<m.col; i++){
             if(m.matrix[m.row-1][i]!=0){
-                isAllZero = False;
+                isAllZero = false;
             }
         }
         return isAllZero;
     }
 
-    //mengecek bila matriks tidak memiliki solusi dengan prekondisi matriks sudah berbentuk matriks oselon
+    // mengecek bila matriks tidak memiliki solusi dengan prekondisi matriks sudah berbentuk matriks oselon
     public static boolean isNoSolution(Matrix m){
         boolean isAllZero;
-        isAllZero = True;
+        int i;
+        isAllZero = true;
 
         for (i=0; i<m.col-1; i++){
             if(m.matrix[m.row-1][i]!=0){
-                isAllZero = False;
+                isAllZero = false;
             }
         }
         return (isAllZero && (m.matrix[m.row-1][m.col-1]!=0)) ;
     }
 
+    // Eliminasi Gauss
+    /*
+    public Matrix gaussElimination(){
+        Matrix hasil = this;
 
+        int i = 0, j = 0, k;
+        while(i<this.row){
+
+            k = 0;
+            while(hasil.matrix[i][j] == 0 && k < this.row){
+                hasil.rowSwap(hasil, i, k);
+                k+=1;
+            }
+
+            if(hasil.matrix[i][j] == 0){
+                j+=1;
+                continue;
+            }
+
+            hasil.multiplyRow(i, 1/hasil.matrix[i][j]);
+
+            k = i;
+            while(k<hasil.row){
+
+                sumMultiplyRow(hasil, j, k);
+
+                k+=1;
+            }
+
+            i+=1;
+            j+=1;
+        }
+
+        return hasil;
+    }
+    */
 
 }
