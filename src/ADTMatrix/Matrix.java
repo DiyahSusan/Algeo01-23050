@@ -239,7 +239,7 @@ public class Matrix{
         Matrix hasil = this;
 
         int i = 0, j = 0, k;
-        while(i<this.row){
+        while(i<this.row && j < this.col){
 
             k = i+1;
             while(hasil.matrix[i][j] == 0 && k < this.row){
@@ -257,7 +257,7 @@ public class Matrix{
             k = i+1;
             while(k<hasil.row){
 
-                hasil.sumMultiplyRow(j, k, (-1) * hasil.matrix[k][j]);
+                hasil.sumMultiplyRow(i, k, (-1) * hasil.matrix[k][j]);
 
                 k+=1;
             }
