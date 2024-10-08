@@ -16,7 +16,7 @@ public class Matrix{
 
     public double MARK = Double.NaN;
 
-    public void toMatrix (double a[][]z, int row, int col){
+    public void toMatrix (double a[][], int row, int col){
         this.matrix = a;
         this.row = row;
         this.col = col;
@@ -145,21 +145,19 @@ public class Matrix{
     }
 
     //menjumlahkan semua hasil perkalian elemen dari 2 kolom yang berbeda
-    public void sumMultiplyCol(int c1, int c2, int multiplier){
+    public void sumMultiplyCol(int c1, int c2, double multiplier){
         int i;
 
-        for (i=0; i<m.row; i++){
-            this.matrix[i][c1] = this.matrix[i][c1] (multiplier * this.matrix[i][c2]);
+        for (i=0; i<this.row; i++){
+            this.matrix[i][c1] = this.matrix[i][c1] + (multiplier * this.matrix[i][c2]);
         }
-
-        return sum;
     }
 
     //menjumlahkan semua hasil perkalian elemen dari 2 baris yang berbeda
-    public void sumMultiplyRow(int r1, int r2, int multiplier){
+    public void sumMultiplyRow(int r1, int r2, double multiplier){
         int i;
 
-        for (i=0; i<m.col; i++){
+        for (i=0; i<this.col; i++){
             this.matrix[r1][i] = this.matrix[r1][i] + (multiplier * this.matrix[r2][i]);
         }
     }
@@ -237,14 +235,13 @@ public class Matrix{
     }
 
     // Eliminasi Gauss
-    /*
     public Matrix gaussElimination(){
         Matrix hasil = this;
 
         int i = 0, j = 0, k;
         while(i<this.row){
 
-            k = 0;
+            k = i+1;
             while(hasil.matrix[i][j] == 0 && k < this.row){
                 hasil.rowSwap(hasil, i, k);
                 k+=1;
@@ -257,10 +254,10 @@ public class Matrix{
 
             hasil.multiplyRow(i, 1/hasil.matrix[i][j]);
 
-            k = i;
+            k = i+1;
             while(k<hasil.row){
 
-                sumMultiplyRow(hasil, j, k);
+                hasil.sumMultiplyRow(j, k, (-1) * hasil.matrix[k][j]);
 
                 k+=1;
             }
@@ -271,6 +268,5 @@ public class Matrix{
 
         return hasil;
     }
-    */
 
 }
