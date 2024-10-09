@@ -79,12 +79,12 @@ public class Matrix{
         this.matrix[row][col] = val;
     }
 
-    public void rowSwap(Matrix m, int row1, int row2){
+    public void rowSwap(int row1, int row2){
         double temp;
-        for (int i=0; i<m.col; i++){
-            temp = m.getElement(row1, i);
-            m.setElement(row1, i, m.getElement(row2, i));
-            m.setElement(row2, i, temp);
+        for (int i=0; i<this.col; i++){
+            temp = this.getElement(row1, i);
+            this.setElement(row1, i, this.getElement(row2, i));
+            this.setElement(row2, i, temp);
         }
         
     }
@@ -234,6 +234,26 @@ public class Matrix{
         return (isAllZero && (m.matrix[m.row-1][m.col-1]!=0)) ;
     }
 
+    public void cekMinNol(){
+        int i = 0, j;
+        while(i<this.row){
+
+            j = 0;
+            while(j<this.col){
+
+                if(this.matrix[i][j] < 0.000001 && this.matrix[i][j] > -0.000001) this.matrix[i][j] = 0;
+
+                j+=1;
+            }
+
+            i+=1;
+        }
+    }
+
+    public void solveManySolution(){
+
+    }
+
     // Eliminasi Gauss
     public Matrix gaussElimination(){
         Matrix hasil = this;
@@ -243,7 +263,8 @@ public class Matrix{
 
             k = i+1;
             while(hasil.matrix[i][j] == 0 && k < this.row){
-                hasil.rowSwap(hasil, i, k);
+                hasil.rowSwap(i, k);
+                //System.out.println("Menukar karena masih 0\n");
                 k+=1;
             }
 
@@ -252,12 +273,15 @@ public class Matrix{
                 continue;
             }
 
-            hasil.multiplyRow(i, 1/hasil.matrix[i][j]);
+            double pembagi = 1/hasil.matrix[i][j];
+            hasil.multiplyRow(i, pembagi);
+            //System.out.println("Membagi dengan " + pembagi);
 
             k = i+1;
             while(k<hasil.row){
 
-                hasil.sumMultiplyRow(i, k, (-1) * hasil.matrix[k][j]);
+                hasil.sumMultiplyRow(k, i, (-1) * hasil.matrix[k][j]);
+                //System.out.println("Menambah row ke-" + i + " dengan row ke-" + k + " dikalikan dengan " + hasil.matrix[k][j] + "\n");
 
                 k+=1;
             }
@@ -265,6 +289,8 @@ public class Matrix{
             i+=1;
             j+=1;
         }
+
+        hasil.cekMinNol();
 
         return hasil;
     }
