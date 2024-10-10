@@ -7,8 +7,8 @@ public class DeterminanTest {
     public static void main(String[] args) {
         // Contoh Matriks Persegi 3x3
         double[][] matriks = {
-            {1, 2, 3},
-            {0, 4, 5},
+            {0, 1, 3},
+            {4, 2, 5},
             {1, 0, 6}
         };
 

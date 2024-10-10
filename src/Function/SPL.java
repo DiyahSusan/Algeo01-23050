@@ -9,12 +9,13 @@ import java.util.Scanner;
 import ADTMatrix.Matrix;
 
 public class SPL{
-    
+
     public static String[] solve(Matrix m){
 
-        String[] anu = new String[m.row];
-
+        String[] anu = new String[0];
         if(m.isNoSolution()) return anu;
+
+        anu = new String[m.col - 1];
 
         m = m.gaussElimination();
 
@@ -23,7 +24,17 @@ public class SPL{
             return anu;
         }
 
-        
+        m = m.gaussJordanElimination();
+
+        int i = 0;
+        while(i<m.row){
+
+            anu[i] = String.valueOf(m.matrix[i][m.col - 1]);
+
+            i+=1;
+        }
+
+        return anu;
     }
 
 }
