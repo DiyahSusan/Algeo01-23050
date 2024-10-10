@@ -256,17 +256,17 @@ public class Matrix{
         return hasil;
     }
 
-    // public Matrix matrixKofaktor(){
-    //     Matrix hasil, m;
-    //     m = this;
-    //     int i,j;
+    public Matrix matrixKofaktor(){
+        Matrix hasil, m;
+        m = this;
+        int i,j;
 
-    //     for (i = 0; i < m.row; i++){
-    //         for (j = 0; j < m.col; j++){
-    //             hasil[i][j] = ((-1)^(i+j)) * determinan(subMatrix(m, i, j)); //nunggu determinan
-    //         }
-    //     }
-    // }
+        for (i = 0; i < m.row; i++){
+            for (j = 0; j < m.col; j++){
+               hasil[i][j] = ((-1)^(i+j)) * Determinan.detKofaktor(subMatrix(m, i, j));
+            }
+        }
+    }
 
     public void cekMinNol(){
         int i = 0, j;
