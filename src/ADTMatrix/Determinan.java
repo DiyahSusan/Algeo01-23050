@@ -1,9 +1,11 @@
 package ADTMatrix;
 //import ADTMatrix.Matrix;
 
+
 public class Determinan {
+
     // mencari determinan dengan metode kofaktor
-    public static double detKofaktor(Matrix m){
+    public double detKofaktor(Matrix m){
         Matrix tempMatrix;
         int i, j, k;
         double x;
@@ -52,18 +54,51 @@ public class Determinan {
     }
 
     //mencari determinan dengan OBE
-    public static double detOBE(Matrix m){
-        //matriks di OBE kan dulu menggunakan eliminasiGauss
-        m.gaussElimination();
+    public double detOBE(Matrix m){
+        int row = m.getRowLength();
+        int col = m.getColLength();
+        double det = 1; //inisialisasi
+        boolean swapped = false;
+        int i,j,k;
 
-        //menghitung determinan berdasarkan perkalian diagonal
-        double determinan = 1;
-        for (int i=0; i<m.getRowLength(); i++){
-            determinan *= m.matrix[i][i]; //mengalikan elemen diagonal
+        // mengubah matrix mnejadi segitiga atas
+        for (i=0; i < row; i++){
+            //jika elemen diagonal 0, cari baris bawahnya untuk ditukar
+            if(m.matrix[i][i] == 0){
+                j = i + 1;
+                while (j<row && m.matrix[j][i] == 0){
+                    j++;
+                }
+
+                if (j<row){
+                    //tukar baris
+                    for (k=0; k<col; k++){
+                        double temp = m.matrix[i][k];
+                        m.matrix[i][k] = m.matrix[j][k];
+                        m.matrix[j][k] = temp;
+                    }
+                    det *= -1; //pertukaran baris mengubah tanda
+                    swapped = true;
+                }
+                else{
+                    return 0; //jika seluruh kolom di bawah diagonal 0, determinan = 0
+                }
+            }
+
+            //eliminasi untuk elemen di bawah diagonal
+            for (j=i+1; j<row; j++){
+                double factor = m.matrix[j][i] / m.matrix[i][i];
+                for (k=i; k<col; k++){
+                    m.matrix[j][k] -= factor * m.matrix[i][k];
+                }
+            }
+        }
+        //hitung detreminan dengan mengalikan elemen diagonal
+        for (i=0; i<row; i++){
+            det *= m.matrix[i][i];
         }
 
-        return determinan;
+        return det;
     }
-
 }
 
