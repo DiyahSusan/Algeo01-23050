@@ -13,22 +13,22 @@ public class DeterminanTest {
         m.toMatrix(matriks, 3, 3);
 
         System.out.println("Matriks:");
-        printMatrix(m);
+        m.printMatrix();
 
         // Menghitung determinan dengan metode kofaktor
-        double detKofaktor = Determinan.detKofaktor(m);
+        double detKofaktor = m.detKofaktor();
         System.out.println("Determinan (Kofaktor): " + detKofaktor);
 
         // Menghitung determinan dengan metode OBE
         Matrix m2 = new Matrix();
         m2.toMatrix(matriks, 3, 3);
         // Membuat duplikasi matriks agar tidak diubah oleh metode OBE
-        double detOBE = Determinan.detOBE(m2);
+        double detOBE = m2.detOBE();
         System.out.println("Determinan (OBE): " + detOBE);
     }
 
     // Fungsi untuk mencetak matriks
-    public static void printMatrix(Matrix matrix) {
+    public void printMatrix(Matrix matrix) {
         for (int i = 0; i < matrix.getRowLength(); i++) {
             for (int j = 0; j < matrix.getColLength(); j++) {
                 System.out.printf("%6.2f ", matrix.getElement(i, j));
