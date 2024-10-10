@@ -250,43 +250,43 @@ public class Matrix{
         return hasil;
     }
 
-    //determinan matrix kofaktorIJ, determinan tanpa baris i dan kolom j
-    public double detKofaktorIJ(Matrix m, int row, int col){
-        int n = m.getRowLength();
-        int i, j;
-        Matrix tempMatrix;
-        tempMatrix = new Matrix ();
-        createMatrix(n-1, n-1); //membuat matrix untuk menyimoan nilai sementara
+//determinan matrix kofaktorIJ, determinan tanpa baris i dan kolom j
+public static double detKofaktorIJ(Matrix m, int row, int col){
+    int n = m.getRowLength();
+    int i, j;
+    Matrix tempMatrix;
+    tempMatrix = new Matrix ();
+    tempMatrix.createMatrix(n-1, n-1); //membuat matrix untuk menyimoan nilai sementara
 
-        for(i=0; i<n; i++){
-            if (i == row){ //jika i = row maka dia tidak akan diikutkan ke perhitungan
+    for(i=0; i<n; i++){
+        if (i == row){ //jika i = row maka dia tidak akan diikutkan ke perhitungan
+            continue;
+        }
+        for (j=0; j<n; j++){
+            if (j == col){ //jika j = col maka dia tidak akan diikutkan ke perhitungan
                 continue;
             }
-            for (j=0; j<n; j++){
-                if (j == col){
-                    continue;
-                }
-                if (i<row){ //di atas baris yang ingin dihapus
-                    if (j<col){ //di kiri kolom yang dihapus
-                        tempMatrix.setElement(i, j, m.getElement(i, j)); //tetap
-                    }
-                    else{
-                        tempMatrix.setElement(i, j-1, m.getElement(i,j)); // geser ke kiri
-                    }
+            if (i<row){ //di atas baris yang ingin dihapus
+                if (j<col){ //di kiri kolom yang dihapus
+                    tempMatrix.setElement(i, j, m.getElement(i, j)); //tetap
                 }
                 else{
-                    if (j<col){ //di kiri kolom yang dihapus
-                        tempMatrix.setElement(i-1, j, m.getElement(i,j)); //geser ke atas
-                    }
-                    else{
-                        tempMatrix.setElement(i-1, j-1, m.getElement(i,j)); //geser ke atas kiri
-                    }
+                    tempMatrix.setElement(i, j-1, m.getElement(i,j)); // geser ke kiri
                 }
             }
-
+            else{
+                if (j<col){ //di kiri kolom yang dihapus
+                    tempMatrix.setElement(i-1, j, m.getElement(i,j)); //geser ke atas
+                }
+                else{
+                    tempMatrix.setElement(i-1, j-1, m.getElement(i,j)); //geser ke atas kiri
+                }
+            }
         }
-        return Determinan.detKofaktor(tempMatrix);
+
     }
+    return Determinan.detKofaktor(tempMatrix);
+}
 
     public Matrix matrixKofaktor(){
         Matrix hasil = new Matrix(), m;
