@@ -251,7 +251,7 @@ public class Matrix{
     }
 
     public void solveManySolution(){
-
+        
     }
 
     // Eliminasi Gauss

@@ -4,9 +4,9 @@ public class MatrixTest {
     public static void main(String[] args) {
         // Membuat matriks contoh
         double[][] data1 = {
-            {2, 1, -1, 8},
-            {-3, -1, 2, -11},
-            {-2, 1, 2, -3}
+            {0, 1, -1, 8},
+            {0, -1, 2, -11},
+            {0, 1, 2, -3}
         };
 
         double[][] data2 = {
