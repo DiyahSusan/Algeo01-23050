@@ -234,6 +234,41 @@ public class Matrix{
         return (isAllZero && (m.matrix[m.row-1][m.col-1]!=0)) ;
     }
 
+    public Matrix subMatrix(Matrix m, int row, int col){
+        Matrix hasil;
+        int i, j, k = 0, l = 0;
+        hasil.row = m.row - 1;
+        hasil.col = m.col - 1;
+        for (i = 0; i < m.row; i++){
+            l = 0;
+            for (j = 0; j < m.col; j++){
+                if ((i == row) || (j == col)){
+                    continue;
+                } else {
+                    hasil.matriks[k][l] = m.matriks[i][j];
+                    if (l < hasil.col-1){
+                        l++;
+                    } else {
+                        k++;
+                    }
+                }
+            }
+        }
+        return hasil;
+    }
+
+    public Matrix matrixKofaktor(){
+        Matrix hasil, m;
+        m = this;
+        int i,j;
+
+        for (i = 0; i < m.row; i++){
+            for (j = 0; j < m.col; j++){
+                hasil[i][j] = ((-1)^(i+j)) * determinan(subMatrix(m, i, j)); //nunggu determinan
+            }
+        }
+    }
+
     public void cekMinNol(){
         int i = 0, j;
         while(i<this.row){
@@ -284,6 +319,52 @@ public class Matrix{
                 //System.out.println("Menambah row ke-" + i + " dengan row ke-" + k + " dikalikan dengan " + hasil.matrix[k][j] + "\n");
 
                 k+=1;
+            }
+
+            i+=1;
+            j+=1;
+        }
+
+        hasil.cekMinNol();
+
+        return hasil;
+    }
+
+    public Matrix gaussJordanElimination(){
+        Matrix hasil = this;
+
+        int i = 0, j = 0, k;
+        while(i<this.row && j < this.col){
+
+            k = i+1;
+            while(hasil.matrix[i][j] == 0 && k < this.row){
+                hasil.rowSwap(i, k);
+                //System.out.println("Menukar karena masih 0\n");
+                k+=1;
+            }
+
+            if(hasil.matrix[i][j] == 0){
+                j+=1;
+                continue;
+            }
+
+            double pembagi = 1/hasil.matrix[i][j];
+            hasil.multiplyRow(i, pembagi);
+            //System.out.println("Membagi dengan " + pembagi);
+
+            k = i+1;
+            while(k<hasil.row){
+
+                hasil.sumMultiplyRow(k, i, (-1) * hasil.matrix[k][j]);
+                //System.out.println("Menambah row ke-" + i + " dengan row ke-" + k + " dikalikan dengan " + hasil.matrix[k][j] + "\n");
+
+                k+=1;
+            }
+
+            k = i-1;
+            while (k >= 0) {
+                hasil.sumMultiplyRow(k, i, -hasil.matrix[k][j]);
+                k -= 1;
             }
 
             i+=1;
