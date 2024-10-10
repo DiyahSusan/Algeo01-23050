@@ -207,13 +207,13 @@ public class Matrix{
     }
 
     //mengecek bila matriks memiliki banyak solusi dengan prekondisi matriks sudah berbentuk matriks oselon
-    public static boolean isManySolution(Matrix m){
+    public boolean isManySolution(){
         boolean isAllZero;
         int i;
         isAllZero = true;
 
-        for (i=0; i<m.col; i++){
-            if(m.matrix[m.row-1][i]!=0){
+        for (i=0; i<this.col; i++){
+            if(this.matrix[this.row-1][i]!=0){
                 isAllZero = false;
             }
         }
@@ -221,17 +221,17 @@ public class Matrix{
     }
 
     // mengecek bila matriks tidak memiliki solusi dengan prekondisi matriks sudah berbentuk matriks oselon
-    public static boolean isNoSolution(Matrix m){
+    public boolean isNoSolution(){
         boolean isAllZero;
         int i;
         isAllZero = true;
 
-        for (i=0; i<m.col-1; i++){
-            if(m.matrix[m.row-1][i]!=0){
+        for (i=0; i<this.col-1; i++){
+            if(this.matrix[this.row-1][i]!=0){
                 isAllZero = false;
             }
         }
-        return (isAllZero && (m.matrix[m.row-1][m.col-1]!=0)) ;
+        return (isAllZero && (this.matrix[this.row-1][this.col-1]!=0)) ;
     }
 
     public Matrix subMatrix(Matrix m, int row, int col){
@@ -284,8 +284,9 @@ public class Matrix{
         }
     }
 
-    public void solveManySolution(){
-        
+    public String[] solveManySolution(){
+        String[] anu = new String[1];
+        return anu;
     }
 
     // Eliminasi Gauss
