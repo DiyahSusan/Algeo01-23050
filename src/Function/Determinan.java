@@ -1,11 +1,12 @@
-package ADTMatrix;
+package Function;
 //import ADTMatrix.Matrix;
 
+import ADTMatrix.Matrix;
 
 public class Determinan {
 
     // mencari determinan dengan metode kofaktor
-    public double detKofaktor(Matrix m){
+    public static double detKofaktor(Matrix m){
         Matrix tempMatrix;
         int i, j, k;
         double x;
@@ -54,7 +55,7 @@ public class Determinan {
     }
 
     //mencari determinan dengan OBE
-    public double detOBE(Matrix m){
+    public static double detOBE(Matrix m){
         int row = m.getRowLength();
         int col = m.getColLength();
         double det = 1; //inisialisasi

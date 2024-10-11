@@ -1,12 +1,6 @@
 package ADTMatrix;
 
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-//import Function.*;
-
+import Function.*;
 
 public class Matrix{
 
@@ -207,13 +201,13 @@ public class Matrix{
     }
 
     //mengecek bila matriks memiliki banyak solusi dengan prekondisi matriks sudah berbentuk matriks oselon
-    public static boolean isManySolution(Matrix m){
+    public boolean isManySolution(){
         boolean isAllZero;
         int i;
         isAllZero = true;
 
-        for (i=0; i<m.col; i++){
-            if(m.matrix[m.row-1][i]!=0){
+        for (i=0; i<this.col; i++){
+            if(this.matrix[this.row-1][i]!=0){
                 isAllZero = false;
             }
         }
@@ -221,17 +215,17 @@ public class Matrix{
     }
 
     // mengecek bila matriks tidak memiliki solusi dengan prekondisi matriks sudah berbentuk matriks oselon
-    public static boolean isNoSolution(Matrix m){
+    public boolean isNoSolution(){
         boolean isAllZero;
         int i;
         isAllZero = true;
 
-        for (i=0; i<m.col-1; i++){
-            if(m.matrix[m.row-1][i]!=0){
+        for (i=0; i<this.col-1; i++){
+            if(this.matrix[this.row-1][i]!=0){
                 isAllZero = false;
             }
         }
-        return (isAllZero && (m.matrix[m.row-1][m.col-1]!=0)) ;
+        return (isAllZero && (this.matrix[this.row-1][this.col-1]!=0)) ;
     }
 
     public Matrix subMatrix(Matrix m, int row, int col){
@@ -256,16 +250,57 @@ public class Matrix{
         return hasil;
     }
 
+//determinan matrix kofaktorIJ, determinan tanpa baris i dan kolom j
+public static double detKofaktorIJ(Matrix m, int row, int col){
+    int n = m.getRowLength();
+    int i, j;
+    Matrix tempMatrix;
+    tempMatrix = new Matrix ();
+    tempMatrix.createMatrix(n-1, n-1); //membuat matrix untuk menyimoan nilai sementara
+
+    for(i=0; i<n; i++){
+        if (i == row){ //jika i = row maka dia tidak akan diikutkan ke perhitungan
+            continue;
+        }
+        for (j=0; j<n; j++){
+            if (j == col){ //jika j = col maka dia tidak akan diikutkan ke perhitungan
+                continue;
+            }
+            if (i<row){ //di atas baris yang ingin dihapus
+                if (j<col){ //di kiri kolom yang dihapus
+                    tempMatrix.setElement(i, j, m.getElement(i, j)); //tetap
+                }
+                else{
+                    tempMatrix.setElement(i, j-1, m.getElement(i,j)); // geser ke kiri
+                }
+            }
+            else{
+                if (j<col){ //di kiri kolom yang dihapus
+                    tempMatrix.setElement(i-1, j, m.getElement(i,j)); //geser ke atas
+                }
+                else{
+                    tempMatrix.setElement(i-1, j-1, m.getElement(i,j)); //geser ke atas kiri
+                }
+            }
+        }
+
+    }
+    return Determinan.detKofaktor(tempMatrix);
+}
+
     public Matrix matrixKofaktor(){
-        Matrix hasil, m;
+        Matrix hasil = new Matrix(), m;
+        hasil.createMatrix(this.row, this.col);
         m = this;
         int i,j;
 
         for (i = 0; i < m.row; i++){
             for (j = 0; j < m.col; j++){
-               hasil[i][j] = ((-1)^(i+j)) * Determinan.detKofaktor(subMatrix(m, i, j));
+               hasil.matrix[i][j] = ((-1)^(i+j)) * Determinan.detKofaktor(subMatrix(m, i, j));
             }
         }
+
+        return hasil;
     }
 
     public void cekMinNol(){
@@ -284,8 +319,9 @@ public class Matrix{
         }
     }
 
-    public void solveManySolution(){
-        
+    public String[] solveManySolution(){
+        String[] anu = new String[1];
+        return anu;
     }
 
     // Eliminasi Gauss

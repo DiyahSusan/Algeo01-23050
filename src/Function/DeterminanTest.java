@@ -1,11 +1,14 @@
-package ADTMatrix;
+package Function;
+
+import ADTMatrix.Matrix;
 
 public class DeterminanTest {
+
     public static void main(String[] args) {
         // Contoh Matriks Persegi 3x3
         double[][] matriks = {
-            {1, 2, 3},
-            {0, 4, 5},
+            {0, 1, 3},
+            {4, 2, 5},
             {1, 0, 6}
         };
 
@@ -13,22 +16,22 @@ public class DeterminanTest {
         m.toMatrix(matriks, 3, 3);
 
         System.out.println("Matriks:");
-        m.printMatrix();
+        DeterminanTest.printMatrix(m);
 
         // Menghitung determinan dengan metode kofaktor
-        double detKofaktor = m.detKofaktor();
+        double detKofaktor = Determinan.detKofaktor(m);
         System.out.println("Determinan (Kofaktor): " + detKofaktor);
 
         // Menghitung determinan dengan metode OBE
         Matrix m2 = new Matrix();
         m2.toMatrix(matriks, 3, 3);
         // Membuat duplikasi matriks agar tidak diubah oleh metode OBE
-        double detOBE = m2.detOBE();
+        double detOBE = Determinan.detOBE(m2);
         System.out.println("Determinan (OBE): " + detOBE);
     }
 
     // Fungsi untuk mencetak matriks
-    public void printMatrix(Matrix matrix) {
+    public static void printMatrix(Matrix matrix) {
         for (int i = 0; i < matrix.getRowLength(); i++) {
             for (int j = 0; j < matrix.getColLength(); j++) {
                 System.out.printf("%6.2f ", matrix.getElement(i, j));
