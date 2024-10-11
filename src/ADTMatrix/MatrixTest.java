@@ -34,6 +34,18 @@ public class MatrixTest {
         Matrix result2 = matrix2.gaussElimination();
         System.out.println("Matriks 2 setelah eliminasi:");
         printMatrix(result2);
+
+        System.out.println("Matriks 1:");
+        printMatrix(matrix1);
+        Matrix cofactorMatrix1 = matrix1.matrixKofaktor();
+        System.out.println("Cofactor Matriks 1:");
+        printMatrix(cofactorMatrix1);
+        
+        System.out.println("\nMatriks 2:");
+        printMatrix(matrix2);
+        Matrix cofactorMatrix2 = matrix2.matrixKofaktor();
+        System.out.println("Cofactor Matriks 2:");
+        printMatrix(cofactorMatrix2);
     }
 
     // Fungsi untuk mencetak matriks
