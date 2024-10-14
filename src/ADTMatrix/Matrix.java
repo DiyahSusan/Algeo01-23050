@@ -411,4 +411,28 @@ public class Matrix{
         return hasil;
     }
 
+    public Matrix transpose(Matrix m){
+        Matrix result;
+        result = new Matrix();
+        result.createMatrix(m.col, m.row);
+        for (int i = 0; i< m.row; i++){
+            for (int j = 0; j<m.col; j++){
+                result.setElement(j, i, m.getElement(i,j));
+            }
+        }
+        return result;
+    }
+
+    // Fungsi untuk perkalian matriks dengan vektor
+    public static double[] multiplyVektor(Matrix m, double[] A) {
+        double[] result = new double[m.row];
+        for (int i = 0; i < m.row; i++) {
+            result[i] = 0; //inisialisasi
+            for (int j = 0; j < m.col; j++) {
+                result[i] += m.getElement(i,j) * A[j];
+            }
+        }
+        return result;
+    }
+
 }
