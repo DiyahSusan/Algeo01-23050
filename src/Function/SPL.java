@@ -12,9 +12,11 @@ public class SPL{
 
     public static String[] solve(Matrix m){
 
+        // tidak ada solusi
         String[] anu = new String[0];
         if(m.isNoSolution()) return anu;
 
+        // banyak solusi
         anu = new String[m.col - 1];
 
         m = m.gaussElimination();
@@ -24,6 +26,7 @@ public class SPL{
             return anu;
         }
 
+        // solusi unik
         m = m.gaussJordanElimination();
 
         int i = 0;
