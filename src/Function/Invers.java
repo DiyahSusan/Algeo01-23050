@@ -4,10 +4,12 @@ import ADTMatrix.Matrix;
 public class Invers{
 
     // belum tau kalau matriksnya gak invertible, ngembaliin apa
-    public static Matrix Invers(Matrix m){
+    public static Matrix invers(Matrix m){
         if (m.isSquare()){
-            Matrix matriks = new Matrix(m.row, m.col);
-            Matrix identitas = new Matrix(m.row, m.col);
+            Matrix matriks = new Matrix();
+            matriks.createMatrix(m.row, m.col);
+            Matrix identitas = new Matrix();
+            identitas.createMatrix(m.row, m.col);
 
             matriks.matrix = m.matrix;
             
@@ -70,6 +72,7 @@ public class Invers{
 
             return identitas;
         }
+        return m; //kalau ngga di return error
 
     }
     
