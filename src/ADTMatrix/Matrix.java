@@ -303,6 +303,11 @@ public class Matrix{
         return hasil;
     }
 
+    public Matrix Adjoin (Matrix m){
+        // adjoin adalah transpose dari matrix kofaktor
+        return transpose (m.matrixKofaktor());
+    }
+
     public void cekMinNol(){
         int i = 0, j;
         while(i<this.row){
