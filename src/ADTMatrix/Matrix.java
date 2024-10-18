@@ -288,15 +288,16 @@ public class Matrix{
         return Determinan.detKofaktor(tempMatrix);
     }
 
-    public Matrix matrixKofaktor(){
-        Matrix hasil = new Matrix(), m;
+    public Matrix matrixKofaktor(Matrix m){
+        Matrix hasil = new Matrix();
         hasil.createMatrix(this.row, this.col);
-        m = this;
         int i,j;
 
         for (i = 0; i < m.row; i++){
             for (j = 0; j < m.col; j++){
-               hasil.matrix[i][j] = ((-1)^(i+j)) * Determinan.detKofaktor(subMatrix(m, i, j));
+               hasil.setElement(i, j, detKofaktorIJ(m, i, j));
+                if ((i+j) % 2 == 1 && hasil.getElement(i,j) != 0)
+			    	hasil.setElement(i, j, (hasil.getElement(i,j) * -1));
             }
         }
 
@@ -305,7 +306,7 @@ public class Matrix{
 
     public Matrix Adjoin (Matrix m){
         // adjoin adalah transpose dari matrix kofaktor
-        return transpose (m.matrixKofaktor());
+        return transpose(matrixKofaktor(m));
     }
 
     public void cekMinNol(){
