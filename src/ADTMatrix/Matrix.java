@@ -147,6 +147,15 @@ public class Matrix{
         }
     }
 
+    public static double sumMultiplyCol(Matrix m, int i, int j){
+        double sum = 0;
+        int k;
+        for (k = 0; k < m.row ;k++){
+            sum += m.matrix[k][i] * m.matrix[k][j];
+        }
+        return sum;
+    }
+
     //menjumlahkan semua hasil perkalian elemen dari 2 baris yang berbeda
     public void sumMultiplyRow(int r1, int r2, double multiplier){
         int i;
@@ -415,6 +424,22 @@ public class Matrix{
         hasil.cekMinNol();
 
         return hasil;
+    }
+
+    public static void backSubstitution(Matrix matrix, double[] X) {
+        int i, j;
+        int n, m;
+        
+        n = matrix.getRowLength();
+        m = matrix.getColLength();
+
+        for (i = n - 1; i >= 0; i--) {
+            X[i] = matrix.getElement(i, m - 1);
+            for (j = i + 1; j < n; j++) {
+                X[i] -= matrix.getElement(i, j) * X[j];
+            }
+            X[i] /= matrix.getElement(i, i);
+        }
     }
 
     public Matrix transpose(Matrix m){
