@@ -8,10 +8,10 @@ import ADTMatrix.Matrix;
 
 public class Input {
     public static Scanner scanner = new Scanner(System.in);
-    public static double[][] readMatrix() {
-        int i,j;
+    public static Matrix readMatrix() {
+        int i,j, row, col;
         double[][] m;
-        int row, col;
+        Matrix hasil = new Matrix();
 
         System.out.print("Masukkan jumlah baris: ");
         row = scanner.nextInt();
@@ -25,7 +25,9 @@ public class Input {
                 m[i][j] = scanner.nextDouble();
             }
         }
-        return m;
+
+        hasil.toMatrix(m, row, col);
+        return hasil;
     }
 
     public static double[][] readInterpolasi(){
