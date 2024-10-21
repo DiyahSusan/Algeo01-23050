@@ -12,47 +12,135 @@ public class Main{
         Scanner input = new Scanner(System.in);
         int cmd;
         boolean salahInput = false;
+        Matrix m = new Matrix();
+        String[] untukOutput;
 
         while(true){
 
-            Printer.header();
+            Output.header();
 
-            salahInput = Printer.pesan_salah_input(salahInput);
+            salahInput = Output.pesan_salah_input(salahInput);
 
             System.out.print("> ");
             cmd = input.nextInt();
 
             if(cmd == 1){
                 // SPL
+
                 while(true){
 
-                    Printer.menu_spl();
+                    Output.menu_spl();
                     
-                    salahInput = Printer.pesan_salah_input(salahInput);
+                    salahInput = Output.pesan_salah_input(salahInput);
 
                     System.out.print("> ");
                     cmd = input.nextInt();
                 
-                    if(cmd == 1){
+                    if(cmd == 1){ // GAUSS
+                        
+                        // Cara Input
+                        while(true){
 
-                        // gauss
+                            Output.menu_input();
 
-                    }else if(cmd == 2){
+                            salahInput = Output.pesan_salah_input(salahInput);
 
-                        // gauss-jordan
+                            System.out.print("> ");
+                            cmd = input.nextInt();
 
-                    }else if(cmd == 3){
+                            if(cmd >= 0 && cmd <= 2){
+                                break;
+                            }
+                        }
+
+                        if(cmd == 1){
+                            m = Input.readMatrix();
+                        }else if(cmd == 2){
+                            // baca dari file
+                        }
+
+                        // Cara Output
+                        while(true){
+
+                            Output.menu_output();
+
+                            salahInput = Output.pesan_salah_input(salahInput);
+
+                            System.out.print("> ");
+                            cmd = input.nextInt();
+
+                            if(cmd >= 1 && cmd <= 2){
+                                break;
+                            }
+                        }
+
+                        untukOutput = SPL.metode_gauss(m);
+
+                        if(cmd == 2){
+                            // write file
+                        }
+
+                    }else if(cmd == 2){ // GAUSS-JORDAN
+
+                        // Cara Input
+                        while(true){
+
+                            Output.menu_input();
+
+                            salahInput = Output.pesan_salah_input(salahInput);
+
+                            System.out.print("> ");
+                            cmd = input.nextInt();
+
+                            if(cmd >= 0 && cmd <= 2){
+                                break;
+                            }
+                        }
+
+                        if(cmd == 1){
+                            m = Input.readMatrix();
+                        }else if(cmd == 2){
+                            // baca dari file
+                        }
+
+                        // Cara Output
+                        while(true){
+
+                            Output.menu_output();
+
+                            salahInput = Output.pesan_salah_input(salahInput);
+
+                            System.out.print("> ");
+                            cmd = input.nextInt();
+
+                            if(cmd >= 1 && cmd <= 2){
+                                break;
+                            }
+                        }
+
+                        untukOutput = SPL.metode_gauss_jordan(m);
+
+                        if(cmd == 2){
+                            // write file
+                        }
+
+                    }else if(cmd == 3){ // INVERS
 
                         // invers
 
-                    }else if(cmd == 4){
+
+                    }else if(cmd == 4){ // KAIDAH CRAMER
 
                         // kaidah cramer
 
-                    }else if(cmd == 0){
+                    }else if(cmd == 0){ // KEMBALI
+
                         break;
-                    }else{
+
+                    }else{ // SALAH INPUT
+
                         salahInput = true;
+
                     }
 
                 }
@@ -61,9 +149,9 @@ public class Main{
                 // Determinan
                 while(true){
 
-                    Printer.menu_determinan();
+                    Output.menu_determinan();
                     
-                    salahInput = Printer.pesan_salah_input(salahInput);
+                    salahInput = Output.pesan_salah_input(salahInput);
 
                     System.out.print("> ");
                     cmd = input.nextInt();
@@ -88,9 +176,9 @@ public class Main{
                 // Invers
                 while(true){
 
-                    Printer.menu_matriks_balikan();
+                    Output.menu_matriks_balikan();
                     
-                    salahInput = Printer.pesan_salah_input(salahInput);
+                    salahInput = Output.pesan_salah_input(salahInput);
 
                     System.out.print("> ");
                     cmd = input.nextInt();
@@ -113,7 +201,7 @@ public class Main{
 
             }else if(cmd == 4){
                 // Interpolasi Polinomial
-                
+
 
             }else if(cmd == 5){
                 // Bikubik
@@ -123,9 +211,9 @@ public class Main{
                 // Regresi
                 while(true){
 
-                    Printer.menu_regresi();
+                    Output.menu_regresi();
                     
-                    salahInput = Printer.pesan_salah_input(salahInput);
+                    salahInput = Output.pesan_salah_input(salahInput);
 
                     System.out.print("> ");
                     cmd = input.nextInt();
@@ -148,7 +236,7 @@ public class Main{
 
             }else if(cmd == 0){
                 // Keluar
-                Printer.pesan_keluar();
+                Output.pesan_keluar();
                 break;
 
             }else{
@@ -157,6 +245,7 @@ public class Main{
 
         }
 
+        input.close();
     }    
 
 }

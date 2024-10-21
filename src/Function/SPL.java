@@ -7,8 +7,41 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import ADTMatrix.Matrix;
+import IO.Output;
 
 public class SPL{
+
+    public static String[] metode_gauss(Matrix m){
+        String[] hasil;
+
+        m.gaussElimination();
+
+        System.out.println("Melakukan Eliminasi Gauss untuk mendapatkan matriks eselon:");
+        System.out.println("");
+        Output.printMatrix(m);
+
+        hasil = solve(m);
+
+        Output.solusi_spl(hasil);
+
+        return hasil;
+    }
+
+    public static String[] metode_gauss_jordan(Matrix m){
+        String[] hasil;
+
+        m.gaussJordanElimination();
+
+        System.out.println("Melakukan Eliminasi Gauss-Jordan untuk \nmendapatkan matriks eselon:");
+        System.out.println("");
+        Output.printMatrix(m);
+
+        hasil = solve(m);
+
+        Output.solusi_spl(hasil);
+
+        return hasil;
+    }
 
     public static String[] solve(Matrix m){
 
