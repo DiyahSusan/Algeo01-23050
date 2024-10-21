@@ -4,6 +4,8 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+import ADTMatrix.Matrix;
+
 public class Input {
     public static Scanner scanner = new Scanner(System.in);
     public static double[][] readMatrix() {
@@ -90,5 +92,70 @@ public class Input {
             }
         }
         return matrix;
+    }
+    public static Matrix readMatrixFile(){
+        int i;
+        Matrix m;
+    
+        System.out.print("Masukkan nama file: ");
+        String file = scanner.nextLine();
+        String path = "test/Input/" + file;
+        System.out.println(path);
+
+        try{
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+            String s;
+            String[] x;
+            double[] y;
+            double[][] mTemp;
+
+            s = br.readLine();
+            
+            x = s.split("\\s+");
+            y = new double[x.length];
+
+            for(i = 0; i < y.length; i++){
+                y[i] = Double.parseDouble(x[i]);
+            }
+
+            mTemp = new double[1][x.length];
+            for(i = 0; i < y.length; i++){
+                mTemp[0][i] = y[i];
+            }
+             
+            m = new Matrix();
+            m.createMatrix(1, y.length);
+            m.matrix = mTemp;
+
+            while((s = br.readLine()) != null){
+                x = s.split("\\s+");
+                y = new double [x.length];
+                for(i = 0; i < x.length; i++){
+                    y[i] = Double.parseDouble(x[i]);
+                }
+                if(x.length < m.col){
+                    double[] z = new double[m.col];
+                    for(i = 0; i < m.col;i++){
+                        if(i >= y.length){
+                            z[i] = 0;
+                        }else{
+                            z[i] = y[i];
+                        }
+                    }
+                    m = Matrix.addRow(m, z);
+                }else{
+                    m = Matrix.addRow(m, y);
+                }
+            }
+            br.close();
+            return m;
+            
+        }catch(Exception ex){
+            System.out.println("File tidak ditemukan");
+            System.out.println("Mengembalikan matriks kosong");
+            m = new Matrix();
+            m.createMatrix(1,1);
+            return m;
+        }
     }
 }
