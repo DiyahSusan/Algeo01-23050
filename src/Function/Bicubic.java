@@ -4,7 +4,7 @@ import ADTMatrix.Matrix;
 public class Bicubic{
 
     public static Matrix f (){
-        int row;
+        int row, col;
                 
         Matrix m = new Matrix();
         m.createMatrix(4,16);
@@ -14,7 +14,7 @@ public class Bicubic{
             int y = row % 2;
             int i = 0, j = 0;
     
-            for (int col = 0; col < 16; col++) {
+            for (col = 0; col < 16; col++) {
                 m.setElement(row, col, Math.pow(x, i) * Math.pow(y, j));
                 
                 j++;
@@ -29,8 +29,7 @@ public class Bicubic{
     }
 
     public static Matrix fx (){
-        int row;
-        boolean a = false;
+        int row, col;
                 
         Matrix m = new Matrix();
         m.createMatrix(4,16);
@@ -40,19 +39,46 @@ public class Bicubic{
             int y = row % 2;
             int i = 0, j = 0;
     
-            for (int col = 0; col < 16; col++) {
-                m.setElement(row, col, Math.pow(x, i) * Math.pow(y, j));
-                
-                if(!a && i == 1){
-                    i = 0;
-                    a = true;
+            for (col = 0; col < 16; col++){
+                if (i == 0){
+                    m.setElement(row, col, 0.0000);
                 }
+                else{
+                    m.setElement(row, col, Math.pow(x, i-1) * Math.pow(y, j) * i);
+                }
+                i++;
+                if (i > 3){
+                    i = 0;
+                    j++;
+                }
+            }
+        }
+        
+        return m;
+    }
 
-                j++;
+    public static Matrix fy (){
+        int row, col;
+                
+        Matrix m = new Matrix();
+        m.createMatrix(4,16);
 
-                if (j == 4) {
-                    j = 0;
-                    i++;
+        for (row = 0; row < 4; row++) {
+            int x = row / 2;
+            int y = row % 2;
+            int i = 0, j = 0;
+    
+            for (col = 0; col < 16; col++){
+                if (i == 0){
+                    m.setElement(row, col, 0.0000);
+                }
+                else{
+                    m.setElement(row, col, Math.pow(x, i) * Math.pow(y, j-1) * j);
+                }
+                i++;
+                if (i > 3){
+                    i = 0;
+                    j++;
                 }
             }
         }
