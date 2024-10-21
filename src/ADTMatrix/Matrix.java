@@ -310,7 +310,7 @@ public class Matrix{
             j = 0;
             while(j<this.col){
 
-                if(this.matrix[i][j] < 0.000001 && this.matrix[i][j] > -0.000001) this.matrix[i][j] = 0;
+                if(this.matrix[i][j] < 0.0000000001 && this.matrix[i][j] > -0.0000000001) this.matrix[i][j] = 0;
 
                 j+=1;
             }
@@ -320,7 +320,22 @@ public class Matrix{
     }
 
     public String[] solveManySolution(){
-        String[] anu = new String[1];
+        String[] anu = new String[this.col-1];
+        int i = this.row - 2, j;
+        while(i>=0){
+
+            j = this.col-2;
+            while(j>=0){
+
+                if(Math.abs(this.matrix[i][j]) > (float) Math.pow(10, -10)){
+                    
+                }
+
+                j-=1;
+            }
+
+            i-=1;
+        }
         return anu;
     }
 
