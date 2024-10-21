@@ -10,7 +10,7 @@ public class Main{
     public static void main(String[] args){
 
         Scanner input = new Scanner(System.in);
-        int cmd;
+        int cmd1, cmd2, cmd3 = 0;
         boolean salahInput = false;
         Matrix m = new Matrix();
         String[] untukOutput;
@@ -22,9 +22,9 @@ public class Main{
             salahInput = Output.pesan_salah_input(salahInput);
 
             System.out.print("> ");
-            cmd = input.nextInt();
+            cmd1 = input.nextInt();
 
-            if(cmd == 1){
+            if(cmd1 == 1){
                 // SPL
 
                 while(true){
@@ -34,10 +34,10 @@ public class Main{
                     salahInput = Output.pesan_salah_input(salahInput);
 
                     System.out.print("> ");
-                    cmd = input.nextInt();
-                
-                    if(cmd == 1){ // GAUSS
-                        
+                    cmd2 = input.nextInt();
+
+                    // Input dan Cara Output
+                    if(cmd2 >= 1 && cmd2 <= 4){
                         // Cara Input
                         while(true){
 
@@ -46,16 +46,20 @@ public class Main{
                             salahInput = Output.pesan_salah_input(salahInput);
 
                             System.out.print("> ");
-                            cmd = input.nextInt();
+                            cmd3 = input.nextInt();
 
-                            if(cmd >= 0 && cmd <= 2){
+                            if(cmd3 >= 0 && cmd3 <= 2){
                                 break;
+                            }else{
+                                salahInput = true;
                             }
                         }
 
-                        if(cmd == 1){
+                        if(cmd3 == 0) continue;
+
+                        if(cmd3 == 1){
                             m = Input.readMatrix();
-                        }else if(cmd == 2){
+                        }else if(cmd3 == 2){
                             // baca dari file
                         }
 
@@ -67,73 +71,46 @@ public class Main{
                             salahInput = Output.pesan_salah_input(salahInput);
 
                             System.out.print("> ");
-                            cmd = input.nextInt();
+                            cmd3 = input.nextInt();
 
-                            if(cmd >= 1 && cmd <= 2){
+                            if(cmd3 >= 1 && cmd3 <= 2){
                                 break;
+                            }else{
+                                salahInput = true;
                             }
                         }
-
+                    }
+                
+                    if(cmd2 == 1){ // GAUSS
+                        
                         untukOutput = SPL.metode_gauss(m);
 
-                        if(cmd == 2){
+                        if(cmd3 == 2){
                             // write file
                         }
 
-                    }else if(cmd == 2){ // GAUSS-JORDAN
-
-                        // Cara Input
-                        while(true){
-
-                            Output.menu_input();
-
-                            salahInput = Output.pesan_salah_input(salahInput);
-
-                            System.out.print("> ");
-                            cmd = input.nextInt();
-
-                            if(cmd >= 0 && cmd <= 2){
-                                break;
-                            }
-                        }
-
-                        if(cmd == 1){
-                            m = Input.readMatrix();
-                        }else if(cmd == 2){
-                            // baca dari file
-                        }
-
-                        // Cara Output
-                        while(true){
-
-                            Output.menu_output();
-
-                            salahInput = Output.pesan_salah_input(salahInput);
-
-                            System.out.print("> ");
-                            cmd = input.nextInt();
-
-                            if(cmd >= 1 && cmd <= 2){
-                                break;
-                            }
-                        }
+                    }else if(cmd2 == 2){ // GAUSS-JORDAN
 
                         untukOutput = SPL.metode_gauss_jordan(m);
 
-                        if(cmd == 2){
+                        if(cmd3 == 2){
                             // write file
                         }
 
-                    }else if(cmd == 3){ // INVERS
+                    }else if(cmd2 == 3){ // INVERS
 
                         // invers
+                        //untukOutput = SPL.metode_invers(m);
+                        
+                        if(cmd3 == 2){
+                            // write file
+                        }
 
-
-                    }else if(cmd == 4){ // KAIDAH CRAMER
+                    }else if(cmd2 == 4){ // KAIDAH CRAMER
 
                         // kaidah cramer
 
-                    }else if(cmd == 0){ // KEMBALI
+                    }else if(cmd2 == 0){ // KEMBALI
 
                         break;
 
@@ -145,7 +122,7 @@ public class Main{
 
                 }
 
-            }else if(cmd == 2){
+            }else if(cmd1 == 2){
                 // Determinan
                 while(true){
 
@@ -154,17 +131,17 @@ public class Main{
                     salahInput = Output.pesan_salah_input(salahInput);
 
                     System.out.print("> ");
-                    cmd = input.nextInt();
+                    cmd2 = input.nextInt();
                 
-                    if(cmd == 1){
+                    if(cmd2 == 1){
 
                         // reduksi baris
 
-                    }else if(cmd == 2){
+                    }else if(cmd2 == 2){
 
                         // ekspansi kofaktor
 
-                    }else if(cmd == 0){
+                    }else if(cmd2 == 0){
                         break;
                     }else{
                         salahInput = true;
@@ -172,26 +149,26 @@ public class Main{
 
                 }
 
-            }else if (cmd == 3) {
+            }else if (cmd1 == 3) {
                 // Invers
                 while(true){
 
-                    Output.menu_matriks_balikan();
+                    Output.menu_invers();
                     
                     salahInput = Output.pesan_salah_input(salahInput);
 
                     System.out.print("> ");
-                    cmd = input.nextInt();
+                    cmd2 = input.nextInt();
                 
-                    if(cmd == 1){
+                    if(cmd2 == 1){
 
                         // adjoin
 
-                    }else if(cmd == 2){
+                    }else if(cmd2 == 2){
 
                         // matriks identitas
 
-                    }else if(cmd == 0){
+                    }else if(cmd2 == 0){
                         break;
                     }else{
                         salahInput = true;
@@ -199,15 +176,15 @@ public class Main{
 
                 }
 
-            }else if(cmd == 4){
+            }else if(cmd1 == 4){
                 // Interpolasi Polinomial
 
 
-            }else if(cmd == 5){
+            }else if(cmd1 == 5){
                 // Bikubik
 
 
-            }else if(cmd == 6){
+            }else if(cmd1 == 6){
                 // Regresi
                 while(true){
 
@@ -216,17 +193,17 @@ public class Main{
                     salahInput = Output.pesan_salah_input(salahInput);
 
                     System.out.print("> ");
-                    cmd = input.nextInt();
+                    cmd2 = input.nextInt();
                 
-                    if(cmd == 1){
+                    if(cmd2 == 1){
 
                         // regresi linear berganda
 
-                    }else if(cmd == 2){
+                    }else if(cmd2 == 2){
 
                         // regresi kuadratik berganda
 
-                    }else if(cmd == 0){
+                    }else if(cmd2 == 0){
                         break;
                     }else{
                         salahInput = true;
@@ -234,7 +211,7 @@ public class Main{
 
                 }
 
-            }else if(cmd == 0){
+            }else if(cmd1 == 0){
                 // Keluar
                 Output.pesan_keluar();
                 break;

@@ -72,7 +72,7 @@ public class Output{
         System.out.println("");
     }
 
-    public static void menu_matriks_balikan(){
+    public static void menu_invers(){
         header();
         header_menu_metode();
         System.out.println("1. Metode Adjoin");
@@ -166,6 +166,24 @@ public class Output{
             System.out.println();
         }
         System.out.println();
+    }
+
+    public static int opsiOutput(){
+        Scanner input = new Scanner (System.in);
+        BufferedReader inputFile = new BufferedReader(new InputStreamReader((System.in)));
+        header();
+        menu_output();
+
+        //input opsi
+        System.out.print("> ");
+        int opsi = input.nextInt();
+        //cek validasi
+        while (opsi < 1 || opsi > 2){
+            System.out.println("Opsi tidak tersedia! Silahkan masukkan opsi yang sesuai.");
+            System.out.print("> ");
+            opsi = input.nextInt();
+        }
+        return opsi;
     }
 
     // mengubah hasil invers ke file
