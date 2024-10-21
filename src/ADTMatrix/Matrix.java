@@ -147,6 +147,15 @@ public class Matrix{
         }
     }
 
+    public static double sumMultiplyCol(Matrix m, int i, int j){
+        double sum = 0;
+        int k;
+        for (k = 0; k < m.row ;k++){
+            sum += m.matrix[k][i] * m.matrix[k][j];
+        }
+        return sum;
+    }
+
     //menjumlahkan semua hasil perkalian elemen dari 2 baris yang berbeda
     public void sumMultiplyRow(int r1, int r2, double multiplier){
         int i;
@@ -288,19 +297,25 @@ public class Matrix{
         return Determinan.detKofaktor(tempMatrix);
     }
 
-    public Matrix matrixKofaktor(){
-        Matrix hasil = new Matrix(), m;
+    public Matrix matrixKofaktor(Matrix m){
+        Matrix hasil = new Matrix();
         hasil.createMatrix(this.row, this.col);
-        m = this;
         int i,j;
 
         for (i = 0; i < m.row; i++){
             for (j = 0; j < m.col; j++){
-               hasil.matrix[i][j] = ((-1)^(i+j)) * Determinan.detKofaktor(subMatrix(m, i, j));
+               hasil.setElement(i, j, detKofaktorIJ(m, i, j));
+                if ((i+j) % 2 == 1 && hasil.getElement(i,j) != 0)
+			    	hasil.setElement(i, j, (hasil.getElement(i,j) * -1));
             }
         }
 
         return hasil;
+    }
+
+    public Matrix Adjoin (Matrix m){
+        // adjoin adalah transpose dari matrix kofaktor
+        return transpose(matrixKofaktor(m));
     }
 
     public void cekMinNol(){
@@ -424,6 +439,22 @@ public class Matrix{
         hasil.cekMinNol();
 
         return hasil;
+    }
+
+    public static void backSubstitution(Matrix matrix, double[] X) {
+        int i, j;
+        int n, m;
+        
+        n = matrix.getRowLength();
+        m = matrix.getColLength();
+
+        for (i = n - 1; i >= 0; i--) {
+            X[i] = matrix.getElement(i, m - 1);
+            for (j = i + 1; j < n; j++) {
+                X[i] -= matrix.getElement(i, j) * X[j];
+            }
+            X[i] /= matrix.getElement(i, i);
+        }
     }
 
     public Matrix transpose(Matrix m){
