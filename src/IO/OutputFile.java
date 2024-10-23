@@ -18,7 +18,7 @@ public class OutputFile {
                 System.out.printf("%.2f", m.getElement(i, j));
                 System.out.printf(" ");
             }
-            System.out.println("\n");
+            System.out.printf("\n");
         }
         System.out.println();
     }

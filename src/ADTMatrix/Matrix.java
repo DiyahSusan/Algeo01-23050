@@ -223,7 +223,7 @@ public class Matrix{
         return isAllZero;
     }
 
-    // mengecek bila matriks tidak memiliki solusi dengan prekondisi matriks sudah berbentuk matriks oselon
+    // mengecek bila matriks tidak memiliki solusi dengan prekondisi matriks sudah berbentuk matriks eselon
     public boolean isNoSolution(){
         boolean isAllZero;
         int i;
@@ -479,6 +479,29 @@ public class Matrix{
             }
         }
         return result;
+    }
+
+    public Matrix copy(){
+        Matrix hasil = new Matrix();
+        hasil.createMatrix(this.row, this.col);
+
+        int i, j;
+
+        i = 0;
+        while(i<this.row){
+
+            j = 0;
+            while(j<this.col){
+
+                hasil.matrix[i][j] = this.matrix[i][j];
+
+                j+=1;
+            }
+
+            i+=1;
+        }
+
+        return hasil;
     }
 
 }

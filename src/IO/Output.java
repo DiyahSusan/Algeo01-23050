@@ -8,6 +8,8 @@ import java.util.*;
 
 public class Output{
 
+    public static Scanner input = new Scanner(System.in);
+
     public static void header(){
         System.out.println("----------------------------------------");
         System.out.println("");
@@ -123,6 +125,12 @@ public class Output{
     }
 
     public static void solusi_spl(String[] solusi){
+
+        if(solusi[0] == null){
+            System.out.println("Tidak ada solusi yang memenuhi.");
+            System.out.println();
+            return;
+        }
         
         System.out.println("Dilakukan penyelesaian dan didapatkan:");
 
@@ -132,10 +140,12 @@ public class Output{
         i = 0;
         while(i<len){
 
-            System.out.println("x_" + (i+1) + "= " + solusi[i]);
+            System.out.println("x_" + (i+1) + " = " + solusi[i]);
 
             i+=1;
         }
+
+        System.out.println();
     }
 
     public static void solusi_interpolasi_polinomial(String[] solusi){
@@ -161,7 +171,7 @@ public class Output{
         //print matrix
         for (int i = 0; i < m.getRowLength(); i++){
             for (int j = 0; j < m.getColLength(); j++){
-                System.out.printf("%.4f", m.getElement(i, j));
+                System.out.printf("%.4f ", m.getElement(i, j));
             }
             System.out.println();
         }
@@ -261,5 +271,23 @@ public class Output{
         }
     }
 
-    
+    public static int caraOutput(boolean salahInput){
+        int hasil;
+        while(true){
+
+            menu_output();
+
+            salahInput = pesan_salah_input(salahInput);
+
+            System.out.print("> ");
+            hasil = input.nextInt();
+
+            if(hasil >= 1 && hasil <= 2){
+                break;
+            }else{
+                salahInput = true;
+            }
+        }
+        return hasil;
+    }
 }

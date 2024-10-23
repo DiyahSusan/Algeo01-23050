@@ -10,10 +10,15 @@ public class Main{
     public static void main(String[] args){
 
         Scanner input = new Scanner(System.in);
-        int cmd1, cmd2, cmd3 = 0;
-        boolean salahInput = false;
+        int cmd1, cmd2, cmd3;
+        boolean salahInput, adaSolusi, banyakSolusi;
+        String pesanTidakAdaSolusi;
         Matrix m = new Matrix();
         String[] untukOutput;
+
+        cmd3 = 0;
+        salahInput = false;
+        pesanTidakAdaSolusi = "Tidak ada solusi yang memenuhi.";
 
         while(true){
 
@@ -39,76 +44,86 @@ public class Main{
                     // Input dan Cara Output
                     if(cmd2 >= 1 && cmd2 <= 4){
                         // Cara Input
-                        while(true){
-
-                            Output.menu_input();
-
-                            salahInput = Output.pesan_salah_input(salahInput);
-
-                            System.out.print("> ");
-                            cmd3 = input.nextInt();
-
-                            if(cmd3 >= 0 && cmd3 <= 2){
-                                break;
-                            }else{
-                                salahInput = true;
-                            }
-                        }
+                        cmd3 = Input.caraInput(salahInput);
+                        salahInput = false;
 
                         if(cmd3 == 0) continue;
 
                         if(cmd3 == 1){
                             m = Input.readMatrix();
                         }else if(cmd3 == 2){
-                            // baca dari file
+                            m = Input.readMatrixFile();
                         }
 
                         // Cara Output
-                        while(true){
-
-                            Output.menu_output();
-
-                            salahInput = Output.pesan_salah_input(salahInput);
-
-                            System.out.print("> ");
-                            cmd3 = input.nextInt();
-
-                            if(cmd3 >= 1 && cmd3 <= 2){
-                                break;
-                            }else{
-                                salahInput = true;
-                            }
-                        }
+                        cmd3 = Output.caraOutput(salahInput);
+                        salahInput = false;
                     }
+
+                    adaSolusi = SPL.is_no_solution(m);
+                    banyakSolusi = SPL.is_many_solution(m);
                 
                     if(cmd2 == 1){ // GAUSS
-                        
-                        untukOutput = SPL.metode_gauss(m);
 
-                        if(cmd3 == 2){
+                        if(adaSolusi){
+                            untukOutput = SPL.metode_gauss(m.copy());
+                        
+                            if(cmd3 == 2){ // Jalup entar bikin if else untukOutput-nya kosong (ga ada solusi)
+                                // write file
+                                // pesan berhasil ditulis
+                            }
+                        }else{
+                            System.out.println(pesanTidakAdaSolusi);
                             // write file
                         }
 
                     }else if(cmd2 == 2){ // GAUSS-JORDAN
 
-                        untukOutput = SPL.metode_gauss_jordan(m);
-
-                        if(cmd3 == 2){
+                        if(adaSolusi){
+                            untukOutput = SPL.metode_gauss_jordan(m.copy());
+                        
+                            if(cmd3 == 2){ // Jalup entar bikin if else untukOutput-nya kosong (ga ada solusi)
+                                // write file
+                                // pesan berhasil ditulis
+                            }
+                        }else{
+                            System.out.println(pesanTidakAdaSolusi);
                             // write file
                         }
 
                     }else if(cmd2 == 3){ // INVERS
 
-                        // invers
-                        //untukOutput = SPL.metode_invers(m);
-                        
-                        if(cmd3 == 2){
+                        if(adaSolusi){
+
+                            untukOutput = SPL.metode_invers(m.copy());
+                            
+                            if(cmd3 == 2){
+                                // write file
+                            }
+
+                        }else if(banyakSolusi){
+                            System.out.println("Terdapat banyak solusi untuk SPL tersebut.\nMetode matriks balikan tidak dapat digunakan.\nSilakan gunakan metode lain.");
+                        }else{
+                            System.out.println(pesanTidakAdaSolusi);
                             // write file
                         }
 
                     }else if(cmd2 == 4){ // KAIDAH CRAMER
 
-                        // kaidah cramer
+                        if(adaSolusi){
+
+                            untukOutput = SPL.metode_cramer(m.copy());
+                            
+                            if(cmd3 == 2){
+                                // write file
+                            }
+
+                        }else if(banyakSolusi){
+                            System.out.println("Terdapat banyak solusi untuk SPL tersebut.\nKaidah tidak dapat digunakan.\nSilakan gunakan metode lain.");
+                        }else{
+                            System.out.println(pesanTidakAdaSolusi);
+                            // write file
+                        }
 
                     }else if(cmd2 == 0){ // KEMBALI
 
