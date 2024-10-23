@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.*;
 
 public class OutputFile {
-        //menampilkan matriks pada layar
+    //menampilkan matriks pada layar
     public static void printMatrix(Matrix m){
         //print matrix
         for (int i = 0; i < m.getRowLength(); i++){
@@ -23,7 +23,7 @@ public class OutputFile {
         System.out.println();
     }
 
-    // mengubah hasil invers ke file
+    // mengubah matriks ke file
     public static void OutputFile (Matrix m, int opsi){
         Scanner scanner = new Scanner(System.in);
         BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in));
