@@ -32,15 +32,49 @@ public class RegresiKuadratik {
         // Membuat matriks SPL untuk persamaan kuadratik
         mTemp = createSPLKuadratik(m);
 
-        // Melakukan Eliminasi Gauss
-        mTemp = mTemp.gaussElimination();
+        // // Melakukan Eliminasi Gauss
+        // mTemp = mTemp.gaussElimination();
+
+        // mengubah matrix mnejadi segitiga atas
+        int j,k;
+        for (i=0; i < mTemp.row; i++){
+            //jika elemen diagonal 0, cari baris bawahnya untuk ditukar
+            if(mTemp.matrix[i][i] == 0){
+                j = i + 1;
+                while (j<mTemp.row && mTemp.matrix[j][i] == 0){
+                    j++;
+                }
+
+                if (j<mTemp.row){
+                    //tukar baris
+                    for (k=0; k<mTemp.col; k++){
+                        double temp = mTemp.matrix[i][k];
+                        mTemp.matrix[i][k] = mTemp.matrix[j][k];
+                        mTemp.matrix[j][k] = temp;
+                    }
+                }
+                // else{
+                //     return 0; //jika seluruh kolom di bawah diagonal 0, determinan = 0
+                // }
+            }
+
+            //eliminasi untuk elemen di bawah diagonal
+            for (j=i+1; j<mTemp.row; j++){
+                double factor = mTemp.matrix[j][i] / mTemp.matrix[i][i];
+                for (k=i; k<mTemp.col; k++){
+                    mTemp.matrix[j][k] -= factor * mTemp.matrix[i][k];
+                }
+            }
+        }
+
         double[] m1 = new double[mTemp.getRowLength()];
         Matrix.backSubstitution(mTemp, m1);
 
         // Menampilkan persamaan kuadratik
-        System.out.print("f(x) = ");
+        System.out.print("f(x1, x2) = ");
         for (i = 0; i < m1.length; i++) {
             if (i == 0) {
+                // a0 (konstanta)
                 result = m1[i];
                 if (m1[i] > 0) {
                     System.out.printf("%.4f ", m1[i]);
@@ -48,22 +82,76 @@ public class RegresiKuadratik {
                     System.out.printf("- %.4f ", Math.abs(m1[i]));
                 }
             } else if (i == 1) {
-                result = m1[i] * x[0];
+                // a1 * x1 (linear untuk x1)
+                result = m1[i] * x[0];  // x[0] adalah x1
                 if (m1[i] > 0) {
-                    System.out.printf("+ %.4fx ", m1[i]);
+                    System.out.printf("+ %.4fx1 ", m1[i]);
                 } else {
-                    System.out.printf("- %.4fx ", Math.abs(m1[i]));
+                    System.out.printf("- %.4fx1 ", Math.abs(m1[i]));
                 }
-            } else {
+            } else if (i == 2) {
+                // a2 * x2 (linear untuk x2)
+                result = m1[i] * x[1];  // x[1] adalah x2
+                if (m1[i] > 0) {
+                    System.out.printf("+ %.4fx2 ", m1[i]);
+                } else {
+                    System.out.printf("- %.4fx2 ", Math.abs(m1[i]));
+                }
+            } else if (i == 3) {
+                // a3 * x1^2 (kuadratik untuk x1)
                 result = m1[i] * x[0] * x[0];
                 if (m1[i] > 0) {
-                    System.out.printf("+ %.4fx^2 ", m1[i]);
+                    System.out.printf("+ %.4fx1^2 ", m1[i]);
                 } else {
-                    System.out.printf("- %.4fx^2 ", Math.abs(m1[i]));
+                    System.out.printf("- %.4fx1^2 ", Math.abs(m1[i]));
+                }
+            } else if (i == 4) {
+                // a4 * x2^2 (kuadratik untuk x2)
+                result = m1[i] * x[1] * x[1];
+                if (m1[i] > 0) {
+                    System.out.printf("+ %.4fx2^2 ", m1[i]);
+                } else {
+                    System.out.printf("- %.4fx2^2 ", Math.abs(m1[i]));
+                }
+            } else if (i == 5) {
+                // a5 * x1 * x2 (interaksi antara x1 dan x2)
+                result = m1[i] * x[0] * x[1];
+                if (m1[i] > 0) {
+                    System.out.printf("+ %.4fx1x2 ", m1[i]);
+                } else {
+                    System.out.printf("- %.4fx1x2 ", Math.abs(m1[i]));
                 }
             }
-            sum += result;
+            sum += result;  // Menambahkan hasil tiap iterasi ke sum
         }
+        System.out.printf(" f(xk) = %.4f\n", sum);
+
+        // System.out.print("f(x) = ");
+        // for (i = 0; i < m1.length; i++) {
+        //     if (i == 0) {
+        //         result = m1[i];
+        //         if (m1[i] > 0) {
+        //             System.out.printf("%.4f ", m1[i]);
+        //         } else {
+        //             System.out.printf("- %.4f ", Math.abs(m1[i]));
+        //         }
+        //     } else if (i == 1) {
+        //         result = m1[i] * x[0];
+        //         if (m1[i] > 0) {
+        //             System.out.printf("+ %.4fx ", m1[i]);
+        //         } else {
+        //             System.out.printf("- %.4fx ", Math.abs(m1[i]));
+        //         }
+        //     } else {
+        //         result = m1[i] * x[0] * x[0];
+        //         if (m1[i] > 0) {
+        //             System.out.printf("+ %.4fx^2 ", m1[i]);
+        //         } else {
+        //             System.out.printf("- %.4fx^2 ", Math.abs(m1[i]));
+        //         }
+        //     }
+        //     sum += result;
+        // }
         System.out.printf("\nf(xk) = %.4f\n", sum);
 
         // Output
