@@ -100,5 +100,10 @@ public class Invers{
 
         return mAdjoin;
     }
+
+    public static boolean isInversible(Matrix m){
+        double determinan = Determinan.detOBE(m.copy());
+        return determinan <= 0.0000000001 && determinan >= -0.0000000001;
+    }
     
 }
