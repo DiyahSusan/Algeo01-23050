@@ -49,17 +49,17 @@ public class Invers{
 
                 k = i+1;
                 while(k<matriks.row){
-
-                    matriks.sumMultiplyRow(k, i, -matriks.matrix[k][j]);
-                    identitas.sumMultiplyRow(k, i, -identitas.matrix[k][j]);
+                    
+                    matriks.sumMultiplyRow(k, i, (-1) * matriks.matrix[k][j]);
+                    identitas.sumMultiplyRow(k, i, (-1) * matriks.matrix[k][j]);
 
                     k+=1;
                 }
 
                 k = i-1;
                 while (k >= 0) {
-                    matriks.sumMultiplyRow(k, i, -matriks.matrix[k][j]);
-                    identitas.sumMultiplyRow(k, i, -identitas.matrix[k][j]);
+                    matriks.sumMultiplyRow(k, i, (-1) * matriks.matrix[k][j]);
+                    identitas.sumMultiplyRow(k, i, (-1) * matriks.matrix[k][j]);
 
                     k -= 1;
                 }
