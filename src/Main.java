@@ -12,7 +12,7 @@ public class Main{
         Scanner input = new Scanner(System.in);
         int cmd1, cmd2, cmd3;
         boolean salahInput, adaSolusi, banyakSolusi;
-        String pesanTidakAdaSolusi;
+        String pesanTidakAdaSolusi, ok;
         Matrix m = new Matrix();
         String[] untukOutput;
 
@@ -22,8 +22,8 @@ public class Main{
 
         while(true){
 
-            Output.header();
-
+            Output.menu_utama();
+            
             salahInput = Output.pesan_salah_input(salahInput);
 
             System.out.print("> ");
@@ -60,15 +60,15 @@ public class Main{
                         salahInput = false;
                     }
 
-                    adaSolusi = SPL.is_no_solution(m);
-                    banyakSolusi = SPL.is_many_solution(m);
+                    adaSolusi = !SPL.is_no_solution(m.copy());
+                    banyakSolusi = SPL.is_many_solution(m.copy());
                 
                     if(cmd2 == 1){ // GAUSS
 
                         if(adaSolusi){
                             untukOutput = SPL.metode_gauss(m.copy());
                         
-                            if(cmd3 == 2){ // Jalup entar bikin if else untukOutput-nya kosong (ga ada solusi)
+                            if(cmd3 == 1){ // Jalup entar bikin if else untukOutput-nya kosong (ga ada solusi)
                                 // write file
                                 // pesan berhasil ditulis
                             }
@@ -76,13 +76,15 @@ public class Main{
                             System.out.println(pesanTidakAdaSolusi);
                             // write file
                         }
+
+                        Output.lanjut();
 
                     }else if(cmd2 == 2){ // GAUSS-JORDAN
 
                         if(adaSolusi){
                             untukOutput = SPL.metode_gauss_jordan(m.copy());
                         
-                            if(cmd3 == 2){ // Jalup entar bikin if else untukOutput-nya kosong (ga ada solusi)
+                            if(cmd3 == 1){ // Jalup entar bikin if else untukOutput-nya kosong (ga ada solusi)
                                 // write file
                                 // pesan berhasil ditulis
                             }
@@ -91,14 +93,25 @@ public class Main{
                             // write file
                         }
 
+                        Output.lanjut();
+
                     }else if(cmd2 == 3){ // INVERS
 
                         if(adaSolusi){
 
-                            untukOutput = SPL.metode_invers(m.copy());
-                            
-                            if(cmd3 == 2){
-                                // write file
+                            if(Invers.isInversible(m)){
+
+                                untukOutput = SPL.metode_invers(m.copy());
+                                
+                                if(cmd3 == 1){
+                                    // write file
+                                }
+
+                            }else{
+                                
+                                System.out.println("Matriks tidak memiliki balikan.");
+                                System.out.println() ;
+
                             }
 
                         }else if(banyakSolusi){
@@ -108,13 +121,15 @@ public class Main{
                             // write file
                         }
 
+                        Output.lanjut();
+
                     }else if(cmd2 == 4){ // KAIDAH CRAMER
 
                         if(adaSolusi){
 
                             untukOutput = SPL.metode_cramer(m.copy());
                             
-                            if(cmd3 == 2){
+                            if(cmd3 == 1){
                                 // write file
                             }
 
@@ -124,6 +139,8 @@ public class Main{
                             System.out.println(pesanTidakAdaSolusi);
                             // write file
                         }
+
+                        Output.lanjut();
 
                     }else if(cmd2 == 0){ // KEMBALI
 
@@ -147,14 +164,47 @@ public class Main{
 
                     System.out.print("> ");
                     cmd2 = input.nextInt();
+
+                    // Input dan Cara Output
+                    if(cmd2 >= 1 && cmd2 <= 2){
+                        // Cara Input
+                        cmd3 = Input.caraInput(salahInput);
+                        salahInput = false;
+
+                        if(cmd3 == 0) continue;
+
+                        if(cmd3 == 1){
+                            m = Input.readMatrix();
+                        }else if(cmd3 == 2){
+                            m = Input.readMatrixFile();
+                        }
+
+                        // Cara Output
+                        cmd3 = Output.caraOutput(salahInput);
+                        salahInput = false;
+                    }
                 
                     if(cmd2 == 1){
 
                         // reduksi baris
+                        untukOutput = Determinan.metode_reduksi_baris(m.copy());
+
+                        if(cmd3 == 1){
+                            // write file
+                        }
+
+                        Output.lanjut();
 
                     }else if(cmd2 == 2){
 
                         // ekspansi kofaktor
+                        untukOutput = Determinan.metode_ekspansi_kofaktor(m.copy());
+
+                        if(cmd3 == 1){
+                            // write file
+                        }
+
+                        Output.lanjut();
 
                     }else if(cmd2 == 0){
                         break;
@@ -174,6 +224,25 @@ public class Main{
 
                     System.out.print("> ");
                     cmd2 = input.nextInt();
+
+                    // Input dan Cara Output
+                    if(cmd2 >= 1 && cmd2 <= 2){
+                        // Cara Input
+                        cmd3 = Input.caraInput(salahInput);
+                        salahInput = false;
+
+                        if(cmd3 == 0) continue;
+
+                        if(cmd3 == 1){
+                            m = Input.readMatrix();
+                        }else if(cmd3 == 2){
+                            m = Input.readMatrixFile();
+                        }
+
+                        // Cara Output
+                        cmd3 = Output.caraOutput(salahInput);
+                        salahInput = false;
+                    }
                 
                     if(cmd2 == 1){
 

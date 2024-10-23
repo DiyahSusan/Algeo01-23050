@@ -134,6 +134,13 @@ public class SPL{
             i+=1;
         }
 
+        if(!Invers.isInversible(A)){
+            hasil[0] = "Matriks tidak dapat diselesaikan menggunakan Kaidah Cramer.";
+            System.out.println(hasil[0]);
+            System.out.println();
+            return hasil;
+        }
+
         i = 0;
         while(i<m.row){
 

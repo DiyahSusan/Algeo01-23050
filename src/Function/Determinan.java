@@ -5,6 +5,32 @@ import ADTMatrix.Matrix;
 
 public class Determinan {
 
+    public static String[] metode_ekspansi_kofaktor(Matrix m){
+        double determinan;
+        String[] hasil = new String[1];
+
+        determinan = detKofaktor(m);
+        System.out.println("Dengan menggunakan metode ekspansi kofaktor, diperoleh nilai determinan:\n" + String.format("%.4f", determinan));
+        System.out.println();
+
+        hasil[0] = String.format("%.4f", determinan);
+
+        return hasil;
+    }
+
+    public static String[] metode_reduksi_baris(Matrix m){
+        double determinan;
+        String[] hasil = new String[1];
+
+        determinan = detOBE(m);
+        System.out.println("Dengan menggunakan metode reduksi baris, diperoleh nilai determinan:\n" + String.format("%.4f", determinan));
+        System.out.println();
+
+        hasil[0] = String.format("%.4f", determinan);
+
+        return hasil;
+    }
+
     // mencari determinan dengan metode kofaktor
     public static double detKofaktor(Matrix m){
         Matrix tempMatrix;

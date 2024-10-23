@@ -17,7 +17,6 @@ public class Output{
         System.out.println("              by Kopi Jawa              ");
         System.out.println("");
         System.out.println("----------------------------------------");
-        System.out.println("");
     }
 
     private static void header_menu_metode() {
@@ -289,5 +288,15 @@ public class Output{
             }
         }
         return hasil;
+    }
+
+    public static String lanjut(){
+        String anu;
+
+        System.out.print("Masukkan apa pun untuk lanjut> ");
+        anu = input.next();
+        System.out.println();
+
+        return anu;
     }
 }
