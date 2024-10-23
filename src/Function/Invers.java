@@ -1,11 +1,11 @@
 package Function;
 import ADTMatrix.Matrix;
-import IO.Output;
+import Function.Determinan;
+import IO.OutputFile;
 
 public class Invers{
 
-    // belum tau kalau matriksnya gak invertible, ngembaliin apa
-    public static Matrix invers(Matrix m){
+    public static Matrix inversMatriksIdentitas(Matrix m){
         if (m.isSquare()){
             Matrix matriks = new Matrix();
             matriks.createMatrix(m.row, m.col);
@@ -76,6 +76,29 @@ public class Invers{
         }
         return m; //kalau ngga di return error
 
+    }
+
+    public static Matrix inversAdjoin (Matrix m){
+        Matrix mInvers = new Matrix();
+        mInvers.createMatrix(m.row, m.col);
+        for (int i = 0; i < m.row; i++) {
+            for (int j = 0; j < m.col; j++) {
+                mInvers.matrix[i][j] = m.matrix[i][j];
+            }
+        }
+
+        Matrix mAdjoin = new Matrix();
+        mAdjoin = mInvers.Adjoin(mInvers);
+
+        double mDet;
+        mDet = Determinan.detKofaktor(mInvers);
+
+        double k = 1/mDet;
+
+
+        mAdjoin.multiplyMatrixWithK(mAdjoin, k);
+
+        return mAdjoin;
     }
 
     public static boolean isInversible(Matrix m){

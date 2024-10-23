@@ -106,6 +106,16 @@ public class Matrix{
         return result;
     }
 
+    public void multiplyMatrixWithK (Matrix m, double k){
+        int i,j;
+
+        for (i=0; i<m.row; i++){
+            for (j=0; j<m.col; j++){
+                m.setElement(i,j, (getElement(i, j)*k));
+            }
+        }
+    }
+
     public void multiplyRow(int row, double pengali){
         int i = 0;
         while(i<this.col){
@@ -304,9 +314,7 @@ public class Matrix{
 
         for (i = 0; i < m.row; i++){
             for (j = 0; j < m.col; j++){
-               hasil.setElement(i, j, detKofaktorIJ(m, i, j));
-                if ((i+j) % 2 == 1 && hasil.getElement(i,j) != 0)
-			    	hasil.setElement(i, j, (hasil.getElement(i,j) * -1));
+                hasil.setElement(i, j, Math.pow(-1, i + j) * detKofaktorIJ(m, i, j));
             }
         }
 
