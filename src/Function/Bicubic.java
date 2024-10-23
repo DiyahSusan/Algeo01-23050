@@ -28,7 +28,7 @@ public class Bicubic{
     public static Matrix fx (Matrix m){
         int row, col;
                 
-        for (row = 4; row < 9; row++) {
+        for (row = 4; row < 8; row++) {
             int x = row / 2;
             int y = row % 2;
             int i = 0, j = 0;
@@ -51,13 +51,10 @@ public class Bicubic{
         return m;
     }
 
-    public static Matrix fy (){
+    public static Matrix fy (Matrix m){
         int row, col;
-                
-        Matrix m = new Matrix();
-        m.createMatrix(4,16);
 
-        for (row = 0; row < 4; row++) {
+        for (row = 8; row < 12; row++) {
             int x = row / 2;
             int y = row % 2;
             int i = 0, j = 0;
@@ -80,13 +77,10 @@ public class Bicubic{
         return m;
     }
 
-    public static Matrix fxy (){
+    public static Matrix fxy (Matrix m){
         int row, col;
-                
-        Matrix m = new Matrix();
-        m.createMatrix(4,16);
-
-        for (row = 0; row < 4; row++) {
+        
+        for (row = 12; row < 16; row++) {
             int x = row / 2;
             int y = row % 2;
             int i = 0, j = 0;
