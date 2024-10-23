@@ -1,9 +1,11 @@
 package Function;
 
 import ADTMatrix.Matrix;
+import IO.OutputFile;
+
 public class Bicubic{
 
-    public static Matrix f (Matrix m){
+    public static void f (Matrix m){
         int row, col;
 
         for (row = 0; row < 4; row++) {
@@ -22,15 +24,14 @@ public class Bicubic{
             }
         }
         
-        return m;
     }
 
-    public static Matrix fx (Matrix m){
+    public static void fx (Matrix m){
         int row, col;
                 
         for (row = 4; row < 8; row++) {
-            int x = row / 2;
-            int y = row % 2;
+            int x = (row-4) / 2;
+            int y = (row-4) % 2;
             int i = 0, j = 0;
     
             for (col = 0; col < 16; col++){
@@ -47,20 +48,19 @@ public class Bicubic{
                 }
             }
         }
-        
-        return m;
+
     }
 
-    public static Matrix fy (Matrix m){
+    public static void fy (Matrix m){
         int row, col;
 
         for (row = 8; row < 12; row++) {
-            int x = row / 2;
-            int y = row % 2;
+            int x = (row-8) / 2;
+            int y = (row-8) % 2;
             int i = 0, j = 0;
     
             for (col = 0; col < 16; col++){
-                if (i == 0){
+                if (j == 0){
                     m.setElement(row, col, 0.0000);
                 }
                 else{
@@ -73,20 +73,19 @@ public class Bicubic{
                 }
             }
         }
-        
-        return m;
+   
     }
 
-    public static Matrix fxy (Matrix m){
+    public static void fxy (Matrix m){
         int row, col;
         
         for (row = 12; row < 16; row++) {
-            int x = row / 2;
-            int y = row % 2;
+            int x = (row-12) / 2;
+            int y = (row-12) % 2;
             int i = 0, j = 0;
     
             for (col = 0; col < 16; col++){
-                if (i == 0){
+                if (i == 0 || j == 0){
                     m.setElement(row, col, 0.0000);
                 }
                 else{
@@ -100,12 +99,16 @@ public class Bicubic{
             }
         }
         
-        return m;
     }
 
-    public static double BicubicSplineInterpolation(double[][] f, double x1, double y1) {
+    public static double BicubicSplineInterpolation(double[][] fInput, double x, double y) {
         Matrix m = new Matrix();
         m.createMatrix(16,16);
+
+        f(m);
+        fx(m);
+        fy(m);
+        fxy(m);
 
         Matrix mInvers = new Matrix();
         mInvers.createMatrix(16,16);
@@ -116,35 +119,32 @@ public class Bicubic{
         Matrix nilaiFungsi = new Matrix();
         nilaiFungsi.createMatrix(16, 1);
         
+        //mengubah input menjadi matriks 16x1
         int idx = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                nilaiFungsi.matrix[idx][0] = f[i][j];
+                nilaiFungsi.matrix[idx][0] = fInput[i][j];
                 idx++;
             }
         }
 
-        double x = 0.0;
-        double y = 0.0;
-        double hasil = 0.0;
-        
-        int i,j;
+        //OutputFile.printMatrix(m);
 
-        System.out.println(m);
+        double hasil = 0.0;
 
         mInvers = Invers.invers(m);
 
         mHasilKali = Matrix.multiplyMatrix(mInvers, nilaiFungsi);
 
-        x = x1;
-        y = y1;
-/*
+        int i,j, index=0;
+
         for (i=0; i<4; i++){
             for (j=0; j<4; j++){
-                hasil += mHasilKali.getElement(i, j);
+                hasil +=  Math.pow(x, i) * Math.pow(y, j) * mHasilKali.getElement(index, 0);
+                index++;
             }
         }
-*/
+
         return hasil;
         
     }
