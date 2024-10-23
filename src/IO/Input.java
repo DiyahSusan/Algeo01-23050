@@ -160,4 +160,24 @@ public class Input {
             return m;
         }
     }
+
+    public static int caraInput(boolean salahInput){
+        int hasil;
+        while(true){
+
+            Output.menu_input();
+
+            salahInput = Output.pesan_salah_input(salahInput);
+
+            System.out.print("> ");
+            hasil = scanner.nextInt();
+
+            if(hasil >= 0 && hasil <= 2){
+                break;
+            }else{
+                salahInput = true;
+            }
+        }
+        return hasil;
+    }
 }
