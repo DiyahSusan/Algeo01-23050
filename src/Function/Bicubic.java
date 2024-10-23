@@ -132,7 +132,7 @@ public class Bicubic{
 
         double hasil = 0.0;
 
-        mInvers = Invers.invers(m);
+        mInvers = Invers.inversMatriksIdentitas(m);
 
         mHasilKali = Matrix.multiplyMatrix(mInvers, nilaiFungsi);
 
