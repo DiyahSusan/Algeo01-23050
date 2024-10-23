@@ -147,22 +147,28 @@ public class Output{
         System.out.println();
     }
 
-    public static void solusi_interpolasi_polinomial(String[] solusi){
-        System.out.println("Dilakukan penyelesaian dan diperoleh persamaan sebagai berikut:");
+    public static String solusi_interpolasi_polinomial(String[] solusi){
+        System.out.println("Dilakukan penyelesaian dan diperoleh persamaan dan koordinat sebagai berikut:");
         System.out.println();
 
         int len, i;
+        String jawaban;
+
         len = solusi.length;
 
-        System.out.print("y = ");
+        jawaban = "y = ";
         i = 0;
         while(i<len){
 
-            if(i == 0) System.out.println(solusi[i] + " ");
-            else System.out.println("+ " + solusi[i] + "x^" + i + " ");
+            if(i == 0) jawaban += (solusi[i] + " ");
+            else jawaban += ("+ " + solusi[i] + "x^" + i + " ");
 
             i+=1;
         }
+
+        System.out.println(jawaban);
+        System.out.println();
+        return jawaban;
     }
 
     //menampilkan matriks pada layar

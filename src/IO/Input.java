@@ -31,20 +31,29 @@ public class Input {
     }
 
     public static double[][] readInterpolasi(){
-        int i, j;
-        int n;
+        int i, n;
         double [][] m;
 
-        System.out.print("Masukkan derajat polinom: ");
+        System.out.print("Masukkan banyak titik yang diketahui> ");
         n = scanner.nextInt();
+        System.out.println();
 
-        m = new double[n + 1][2];
-        System.out.println("Masukkan titik x dan y: ");
-        for(i = 0; i < n + 1; i++){
-            for(j = 0; j < 2; j++){
-                m[i][j] = scanner.nextDouble();
-            }
+        m = new double[n+1][2];
+
+        i = 0;
+        while(i<n){
+
+            System.out.print("Titik ke-" + (i+1) + ": ");
+            m[i][0] = scanner.nextDouble();
+            m[i][1] = scanner.nextDouble();
+
+            i+=1;
         }
+        System.out.println();
+
+        System.out.print("Masukkan absis (x) dari ordinat (y) yang ingin Anda cari> ");
+        m[n][0] = scanner.nextDouble();
+
         return m;
     }
 

@@ -11,6 +11,7 @@ public class Main{
 
         Scanner input = new Scanner(System.in);
         int cmd1, cmd2, cmd3;
+        double[][] daftarTitik = new double[0][0]; // buat interpolasi
         boolean salahInput, adaSolusi, banyakSolusi;
         String pesanTidakAdaSolusi, ok;
         Matrix m = new Matrix();
@@ -263,6 +264,28 @@ public class Main{
             }else if(cmd1 == 4){
                 // Interpolasi Polinomial
 
+                // Input dan Cara Output
+                // Cara Input
+                cmd3 = Input.caraInput(salahInput);
+                salahInput = false;
+
+                if(cmd3 == 0) continue;
+
+                if(cmd3 == 1){
+                    daftarTitik = Input.readInterpolasi();
+                }else if(cmd3 == 2){
+                    //daftarTitik = Input.readInterpolasiFile();
+                }
+
+                // Cara Output
+                cmd3 = Output.caraOutput(salahInput);
+                salahInput = false;
+
+                untukOutput = Interpolasi.interpolasi_polinomial(daftarTitik);
+
+                if(cmd3 == 1){
+                    // write file
+                }
 
             }else if(cmd1 == 5){
                 // Bikubik
