@@ -16,9 +16,9 @@ public class OutputFile {
         for (int i = 0; i < m.getRowLength(); i++){
             for (int j = 0; j < m.getColLength(); j++){
                 System.out.printf("%.2f", m.getElement(i, j));
-                System.out.println(" ");
+                System.out.printf(" ");
             }
-            System.out.println("\n");
+            System.out.printf("\n");
         }
         System.out.println();
     }
