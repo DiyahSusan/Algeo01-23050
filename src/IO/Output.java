@@ -293,6 +293,41 @@ public class Output{
         return opsi;
     }
 
+    public static void fileInterpolasi(String[] untukOutput){
+        BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in)); 
+        String nameFile = "";
+        System.out.println("Masukkan nama file: ");
+        try {
+            nameFile = inputFile.readLine();
+            String path = "test/Output/" + nameFile;
+
+            // cek apakah sudah ada file
+            File file = new File(path);
+            if (file.exists()) {
+                System.out.println("File sudah ada. Apakah Anda ingin menimpanya? (y/n)");
+                char choice = input.next().charAt(0);
+                if (choice != 'y' && choice != 'Y') {
+                    System.out.println("Output dibatalkan.");
+                    return; // ngga dibikin file kalau tidak pilih y
+            }
+        }
+        } catch (IOException err) {
+            err.printStackTrace();
+        }
+
+        try {
+            FileWriter file = new FileWriter("test/Output/" + nameFile);
+            file.write(untukOutput[0]);
+            file.write(", f("+ untukOutput[1]+ ") = " + untukOutput[2]);
+                   
+            file.close();
+        }
+        catch (IOException err) {
+            err.printStackTrace();
+        }
+
+    }
+
     public static void fileBicubic(String hasil){
         BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in)); 
         String nameFile = "";
