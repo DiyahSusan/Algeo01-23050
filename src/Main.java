@@ -1,8 +1,6 @@
 import ADTMatrix.*;
 import Function.*;
 import IO.*;
-
-import java.io.*;
 import java.util.*;
 
 public class Main{
@@ -301,14 +299,38 @@ public class Main{
 
                     System.out.print("> ");
                     cmd2 = input.nextInt();
+
+                    // Input dan Cara Output
+                    if(cmd2 >= 1 && cmd2 <= 2){
+                        // Cara Input
+                        cmd3 = Input.caraInput(salahInput);
+                        salahInput = false;
+
+                        if(cmd3 == 0) continue;
+
+                        if(cmd3 == 1){
+                            m = Input.readMatrix();
+                        }else if(cmd3 == 2){
+                            m = Input.readMatrixFile();
+                        }
+
+                    }
                 
                     if(cmd2 == 1){
 
-                        // regresi linear berganda
+                        // regresi linear
+                        RegresiLinear.regresiLinearKeyboard(m.copy());
+                        //udah ada opsi write file di dalem fungsinya
+
+                        Output.lanjut();
 
                     }else if(cmd2 == 2){
 
-                        // regresi kuadratik berganda
+                        // regresi kuadratik
+                        RegresiKuadratik.RegresiKuadratikKeyboard(m.copy());
+                        //udah ada write file di dalem fungsinya
+
+                        Output.lanjut();
 
                     }else if(cmd2 == 0){
                         break;
