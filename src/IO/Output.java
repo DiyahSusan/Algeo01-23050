@@ -285,9 +285,9 @@ public class Output{
 
         try {
             FileWriter file = new FileWriter("test/Output/" + nameFile);
-            for (int i = 0; i<3; i++){
-                file.write(untukOutput[i]);
-            }            
+            file.write(untukOutput[0]);
+            file.write(", f("+ untukOutput[1]+ ") = " + untukOutput[2]);
+                   
             file.close();
         }
         catch (IOException err) {

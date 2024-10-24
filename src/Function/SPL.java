@@ -24,6 +24,9 @@ public class SPL{
     public static String[] metode_gauss(Matrix m){
         String[] hasil;
 
+        String[] anu = new String[0];
+        if(is_no_solution(m.copy())) return anu;
+
         m.gaussElimination();
 
         System.out.println("Melakukan Eliminasi Gauss untuk mendapatkan matriks eselon:");
@@ -39,6 +42,9 @@ public class SPL{
 
     public static String[] metode_gauss_jordan(Matrix m){
         String[] hasil;
+
+        String[] anu = new String[0];
+        if(is_no_solution(m.copy())) return anu;
 
         m.gaussJordanElimination();
 
@@ -60,6 +66,9 @@ public class SPL{
         Matrix A = new Matrix(), B = new Matrix();
         A.createMatrix(m.row, m.col-1);
         B.createMatrix(m.row, 1);
+
+        String[] anu = new String[0];
+        if(is_no_solution(m.copy())) return anu;
 
         i = 0;
         while(i<m.row){
@@ -119,6 +128,9 @@ public class SPL{
         A.createMatrix(m.row, m.col-1);
         B.createMatrix(m.row, 1);
         temp.createMatrix(m.row, m.col-1);
+
+        String[] anu = new String[0];
+        if(is_no_solution(m.copy())) return anu;
 
         i = 0;
         while(i<m.row){
@@ -204,7 +216,7 @@ public class SPL{
 
         // tidak ada solusi
         String[] anu = new String[0];
-        if(m.isNoSolution()) return anu;
+        if(is_no_solution(m.copy())) return anu;
 
         // banyak solusi
         anu = new String[m.col - 1];
