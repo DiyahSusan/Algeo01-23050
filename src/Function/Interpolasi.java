@@ -27,7 +27,7 @@ public class Interpolasi{
         x = titik[n][0];
         y = Interpolasi.findY(temp, x);
 
-        System.out.println("(" + String.format("%.4f", x) + "," + String.format("%.4f", y) + ")");
+        System.out.println("f(" + String.format("%.4f", x) + ") = " + String.format("%.4f", y));
 
         hasil[1] = String.format("%.4f", x);
         hasil[2] = String.format("%.4f", y);

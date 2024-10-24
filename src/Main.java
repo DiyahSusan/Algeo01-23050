@@ -285,7 +285,7 @@ public class Main{
 
                             m = Invers.inversMatriksIdentitas(m.copy());
                             
-                            System.out.println("Hasil invers menggunakan metode matriks identitas: ");
+                            System.out.println("Hasil invers menggunakan metodematriks identitas: ");
                             Output.printMatrix(m);
 
                             if(cmd3 == 1){
@@ -320,8 +320,11 @@ public class Main{
                 if(cmd3 == 1){
                     daftarTitik = Input.readInterpolasi();
                 }else if(cmd3 == 2){
-                    daftarTitik = Input.readInterpolasi(); // nanti diganti read yang file
-                    //daftarTitik = Input.readInterpolasiFile();
+                    daftarTitik = Input.input_interpolasi_file();
+                    if(daftarTitik.length == 0){
+                        Output.lanjut();
+                        continue;
+                    }
                 }
 
                 // Cara Output
@@ -331,7 +334,9 @@ public class Main{
                 untukOutput = Interpolasi.interpolasi_polinomial(daftarTitik);
 
                 if(cmd3 == 1){
-                    //Output.output_interpolasi_file(untukOutput);
+                    Output.fileInterpolasi(untukOutput);
+                } else if (cmd3 ==2){
+                    System.out.println(untukOutput);
                 }
 
                 Output.lanjut();

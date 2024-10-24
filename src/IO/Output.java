@@ -215,17 +215,49 @@ public class Output{
 
         int len, i;
         String jawaban;
+        boolean pertama;
 
+        pertama = true;
         len = solusi.length;
 
-        jawaban = "y = ";
-        i = 0;
-        while(i<len){
+        jawaban = "f(x) = ";
+        i = len-1;
+        while(i>=0){
 
-            if(i == 0) jawaban += (solusi[i] + " ");
-            else jawaban += ("+ " + solusi[i] + "x^" + i + " ");
+            if(Double.valueOf(solusi[i]) != 0){
 
-            i+=1;
+                if(pertama){
+
+                    if(i == 0){
+
+                        jawaban += solusi[i] + " ";
+
+                    }else{
+
+                        jawaban+=(solusi[i] + "x^" + i + " ");
+
+                    }
+
+                    pertama = false;
+
+                }else{
+
+                    if(i == 0){
+
+                        if(Double.valueOf(solusi[i]) > 0) jawaban += "+ " + solusi[i];
+                        else jawaban += "- " + Math.abs(Double.valueOf(solusi[i]));
+
+                    }else{
+
+                        if(Double.valueOf(solusi[i]) > 0) jawaban += ("+ " + solusi[i] + "x^" + i + " ");
+                        else jawaban += ("- " + Math.abs(Double.valueOf(solusi[i])) + "x^" + i + " ");
+
+                    }                    
+
+                }
+            }
+
+            i-=1;
         }
 
         System.out.println(jawaban);
@@ -259,6 +291,41 @@ public class Output{
         }
 
         return opsi;
+    }
+
+    public static void fileInterpolasi(String[] untukOutput){
+        BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in)); 
+        String nameFile = "";
+        System.out.println("Masukkan nama file: ");
+        try {
+            nameFile = inputFile.readLine();
+            String path = "test/Output/" + nameFile;
+
+            // cek apakah sudah ada file
+            File file = new File(path);
+            if (file.exists()) {
+                System.out.println("File sudah ada. Apakah Anda ingin menimpanya? (y/n)");
+                char choice = input.next().charAt(0);
+                if (choice != 'y' && choice != 'Y') {
+                    System.out.println("Output dibatalkan.");
+                    return; // ngga dibikin file kalau tidak pilih y
+            }
+        }
+        } catch (IOException err) {
+            err.printStackTrace();
+        }
+
+        try {
+            FileWriter file = new FileWriter("test/Output/" + nameFile);
+            file.write(untukOutput[0]);
+            file.write(", f("+ untukOutput[1]+ ") = " + untukOutput[2]);
+                   
+            file.close();
+        }
+        catch (IOException err) {
+            err.printStackTrace();
+        }
+
     }
 
     public static void fileBicubic(String hasil){
