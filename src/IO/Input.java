@@ -2,7 +2,6 @@ package IO;
 import java.util.*;
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.Scanner;
 
 import ADTMatrix.Matrix;
 
@@ -104,70 +103,59 @@ public class Input {
         }
         return matrix;
     }
-    public static Matrix readMatrixFile(){
-        int i;
-        Matrix m;
-    
+    public static Matrix readMatrixFile() {
+        scanner.nextLine();
         System.out.print("Masukkan nama file: ");
         String file = scanner.nextLine();
         String path = "test/Input/" + file;
         System.out.println(path);
-
-        try{
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
-            String s;
-            String[] x;
-            double[] y;
-            double[][] mTemp;
-
-            s = br.readLine();
+        
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
+            // Read first line to initialize matrix
+            String firstLine = br.readLine();
+            if (firstLine == null) {
+                throw new IOException("File is empty");
+            }
             
-            x = s.split("\\s+");
-            y = new double[x.length];
-
-            for(i = 0; i < y.length; i++){
-                y[i] = Double.parseDouble(x[i]);
-            }
-
-            mTemp = new double[1][x.length];
-            for(i = 0; i < y.length; i++){
-                mTemp[0][i] = y[i];
-            }
-             
-            m = new Matrix();
-            m.createMatrix(1, y.length);
-            m.matrix = mTemp;
-
-            while((s = br.readLine()) != null){
-                x = s.split("\\s+");
-                y = new double [x.length];
-                for(i = 0; i < x.length; i++){
-                    y[i] = Double.parseDouble(x[i]);
-                }
-                if(x.length < m.col){
-                    double[] z = new double[m.col];
-                    for(i = 0; i < m.col;i++){
-                        if(i >= y.length){
-                            z[i] = 0;
-                        }else{
-                            z[i] = y[i];
-                        }
-                    }
-                    m = Matrix.addRow(m, z);
-                }else{
-                    m = Matrix.addRow(m, y);
-                }
-            }
-            br.close();
-            return m;
+            // Initialize matrix with first row
+            double[] firstRow = parseRow(firstLine);
+            Matrix matrix = new Matrix();
+            matrix.createMatrix(1, firstRow.length);
+            matrix.matrix = new double[][]{ firstRow };
             
-        }catch(Exception ex){
+            // Read remaining rows
+            String line;
+            while ((line = br.readLine()) != null) {
+                double[] row = parseRow(line);
+                // Pad or truncate row to match matrix width
+                double[] paddedRow = padRow(row, matrix.col);
+                matrix = Matrix.addRow(matrix, paddedRow);
+            }
+            
+            return matrix;
+            
+        } catch (IOException ex) {
             System.out.println("File tidak ditemukan");
             System.out.println("Mengembalikan matriks kosong");
-            m = new Matrix();
-            m.createMatrix(1,1);
-            return m;
+            Matrix emptyMatrix = new Matrix();
+            emptyMatrix.createMatrix(1, 1);
+            return emptyMatrix;
         }
+    }
+
+    // Helper method to parse a line into an array of doubles
+    private static double[] parseRow(String line) {
+        return Arrays.stream(line.split("\\s+"))
+                    .mapToDouble(Double::parseDouble)
+                    .toArray();
+    }
+
+    // Helper method to pad or truncate a row to the desired length
+    private static double[] padRow(double[] row, int targetLength) {
+        double[] result = new double[targetLength];
+        System.arraycopy(row, 0, result, 0, Math.min(row.length, targetLength));
+        // Remaining elements will be 0 by default
+        return result;
     }
 
     public static int caraInput(boolean salahInput){
