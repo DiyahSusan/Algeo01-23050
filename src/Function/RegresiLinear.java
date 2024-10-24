@@ -1,6 +1,4 @@
 package Function;
-import ADTMatrix.Matrix;
-import IO.Output;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,6 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+
+
+import ADTMatrix.Matrix;
+import IO.Output;
 
 public class RegresiLinear{
 
@@ -132,7 +134,7 @@ public class RegresiLinear{
         }
     }
 
-    public static void regresiLinearFile () {
+    public static void regresiLinearFile (Matrix m){
         Scanner scanner = new Scanner(System.in);
         int i, j;
         double result = 0;
@@ -143,7 +145,7 @@ public class RegresiLinear{
         double[] x;
         BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in));
 
-        // membaca file 
+        //membaca file 
         String fileName = "";
         System.out.println("Masukkan nama file untuk membaca data: ");
         try {
@@ -166,21 +168,12 @@ public class RegresiLinear{
 
             // membuat matriks dengan ukuran yang sesuai
             m1 = new Matrix();
-            String firstLine = br.readLine();
-            String[] firstLineValues = firstLine.split("\\s+"); // Misalnya, nilai dipisahkan oleh spasi
-            int colCount = firstLineValues.length;
-
-            m1.createMatrix(rowCount, colCount); // Menggunakan jumlah baris dan kolom yang dibaca dari file
-
-            // memasukkan nilai baris pertama ke dalam matriks
-            for (j = 0; j < firstLineValues.length; j++) {
-                m1.setElement(0, j, Double.parseDouble(firstLineValues[j]));
-            }
+            m1.createMatrix(rowCount, m.col); // Menggunakan jumlah baris yang dibaca dari file
 
             // membaca isi file ke dalam matriks m1
-            int currentRow = 1; // baris pertama sudah dibaca
+            int currentRow = 0;
             while ((line = br.readLine()) != null) {
-                String[] values = line.split("\\s+");
+                String[] values = line.split("\\s+"); // Misalnya, nilai dipisahkan oleh spasi
                 for (j = 0; j < values.length; j++) {
                     m1.setElement(currentRow, j, Double.parseDouble(values[j]));
                 }
@@ -191,21 +184,31 @@ public class RegresiLinear{
             err.printStackTrace();
             return; // Keluar jika ada kesalahan
         }
+        
 
-        // Membuat matriks yang memisahkan variabel X dan hasil Y
-        m2 = new double[m1.col - 1];
-        for(i = 0; i < m2.length; i++){ 
-            m2[i] = m1.getElement(m1.row - 1, i);
+        // membuat matriks dari file yang diinput
+        m1 = new Matrix();
+        m1.createMatrix(m.row - 1, m.col);
+        for(i = 0; i < m.row - 1; i++){
+            for(j = 0; j < m.col; j++){
+                m1.setElement(i, j, m.matrix[i][j]);
+            }
         }
 
-        // membuat matriks baru untuk SPL
-        mTemp = new Matrix();
-        mTemp.createMatrix(m1.col, m1.col + 1);
-        mTemp = createSPLMatrix(m1); // Menggunakan matriks m1
+        m2 = new double[m.col - 1];
+        for(i = 0; i < m2.length; i++){ 
+            m2[i] = m.getElement(m.row - 1, i);
+        }
 
+        //membuat matriks baru semacam SPL
+        mTemp = new Matrix();
+        mTemp.createMatrix(m.col, m.col + 1);
+
+        mTemp = createSPLMatrix(m);
+        
         // melakukan eliminasi Gauss
         mTemp = mTemp.gaussElimination();
-        x = new double[mTemp.getRowLength()];
+        x = new double [mTemp.getRowLength()];
         Matrix.backSubstitution(mTemp, x); 
 
         System.out.print("f(x) = ");
@@ -218,7 +221,7 @@ public class RegresiLinear{
                     x[i] *= -1;
                     System.out.printf("- %.4f ", x[i]);
                 }
-            } else if (i > 0 && i < mTemp.row - 1){
+            } else if ( i > 0 && i < mTemp.row - 1){
                 result = x[i] * m2[i - 1];
                 if (x[i] > 0){
                     System.out.printf("+ %.4fx%d ", x[i], i);
@@ -238,7 +241,7 @@ public class RegresiLinear{
             sum += result;
         }
         System.out.printf("f(xk) = %.4f\n", sum);
-
+         
         //Output
         int opsi = Output.opsiOutput();
         if (opsi == 1) {
@@ -300,180 +303,8 @@ public class RegresiLinear{
                 err.printStackTrace();
             }
         }
+        
     }
-
-
-    // public static void regresiLinearFile (Matrix m){
-    //     Scanner scanner = new Scanner(System.in);
-    //     int i, j;
-    //     double result = 0;
-    //     double sum = 0;
-    //     Matrix mTemp;
-    //     Matrix m1;
-    //     double[] m2;
-    //     double[] x;
-    //     BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in));
-
-    //     //membaca file 
-    //     String fileName = "";
-    //     System.out.println("Masukkan nama file untuk membaca data: ");
-    //     try {
-    //         fileName = inputFile.readLine();
-    //         // Membaca data dari file
-    //         FileReader fr = new FileReader("test/Input/" + fileName);
-    //         BufferedReader br = new BufferedReader(fr);
-            
-    //         // Membaca jumlah baris dan kolom dari file
-    //         int rowCount = 0;
-    //         String line;
-    //         while ((line = br.readLine()) != null) {
-    //             rowCount++;
-    //         }
-
-    //         // Mengatur ulang reader untuk membaca dari awal lagi
-    //         br.close();
-    //         fr = new FileReader("test/Input/" + fileName);
-    //         br = new BufferedReader(fr);
-
-    //         // membuat matriks dengan ukuran yang sesuai
-    //         m1 = new Matrix();
-    //         m1.createMatrix(rowCount, m.col); // Menggunakan jumlah baris yang dibaca dari file
-
-    //         // membaca isi file ke dalam matriks m1
-    //         int currentRow = 0;
-    //         while ((line = br.readLine()) != null) {
-    //             String[] values = line.split("\\s+"); // Misalnya, nilai dipisahkan oleh spasi
-    //             for (j = 0; j < values.length; j++) {
-    //                 m1.setElement(currentRow, j, Double.parseDouble(values[j]));
-    //             }
-    //             currentRow++;
-    //         }
-    //         br.close();
-    //     } catch (IOException err) {
-    //         err.printStackTrace();
-    //         return; // Keluar jika ada kesalahan
-    //     }
-        
-
-    //     // membuat matriks dari file yang diinput
-    //     m1 = new Matrix();
-    //     m1.createMatrix(m.row - 1, m.col);
-    //     for(i = 0; i < m.row - 1; i++){
-    //         for(j = 0; j < m.col; j++){
-    //             m1.setElement(i, j, m.matrix[i][j]);
-    //         }
-    //     }
-
-    //     m2 = new double[m.col - 1];
-    //     for(i = 0; i < m2.length; i++){ 
-    //         m2[i] = m.getElement(m.row - 1, i);
-    //     }
-
-    //     //membuat matriks baru semacam SPL
-    //     mTemp = new Matrix();
-    //     mTemp.createMatrix(m.col, m.col + 1);
-
-    //     mTemp = createSPLMatrix(m);
-        
-    //     // melakukan eliminasi Gauss
-    //     mTemp = mTemp.gaussElimination();
-    //     x = new double [mTemp.getRowLength()];
-    //     Matrix.backSubstitution(mTemp, x); 
-
-    //     System.out.print("f(x) = ");
-    //     for (i = 0; i < mTemp.row; i++) {
-    //         if (i == 0){
-    //             result = x[i];
-    //             if (x[i] > 0){
-    //                 System.out.printf("%.4f ", x[i]);
-    //             } else {
-    //                 x[i] *= -1;
-    //                 System.out.printf("- %.4f ", x[i]);
-    //             }
-    //         } else if ( i > 0 && i < mTemp.row - 1){
-    //             result = x[i] * m2[i - 1];
-    //             if (x[i] > 0){
-    //                 System.out.printf("+ %.4fx%d ", x[i], i);
-    //             } else {
-    //                 x[i] *= -1;
-    //                 System.out.printf("- %.4fx%d ", x[i], i);
-    //             }
-    //         } else if (i == mTemp.row - 1){
-    //             result = x[i] * m2[i - 1];
-    //             if (x[i] > 0){
-    //                 System.out.printf("+ %.4fx%d, ", x[i], i);
-    //             } else {
-    //                 x[i] *= -1;
-    //                 System.out.printf("- %.4fx%d, ", x[i], i);
-    //             }
-    //         }
-    //         sum += result;
-    //     }
-    //     System.out.printf("f(xk) = %.4f\n", sum);
-         
-    //     //Output
-    //     int opsi = Output.opsiOutput();
-    //     if (opsi == 1) {
-    //         // mencetak output ke dalam bentuk file
-    //         String nameFile = "";
-    //         System.out.println("Masukkan nama file: ");
-    //         try {
-    //             nameFile = inputFile.readLine();
-    //             String path = "test/Output/" + nameFile;
-
-    //             // cek filenya udah ada belum
-    //             File file = new File(path);
-    //             if (file.exists()) {
-    //                 System.out.println("File sudah ada. Apakah Anda ingin menimpanya? (y/n)");
-    //                 char choice = scanner.next().charAt(0);
-    //                 if (choice != 'y' && choice != 'Y') {
-    //                     System.out.println("Output dibatalkan.");
-    //                     return; //kalau ngga mau jadiin file berarti batal
-    //                 }
-    //             }
-    //         } catch (IOException err) {
-    //             err.printStackTrace();
-    //         }
-
-    //         try {
-    //             FileWriter file = new FileWriter("test/Output/" + nameFile);
-    //             file.write("f(x) = ");
-    //             for (i = 0; i < mTemp.row; i++) {
-    //                 if (i == 0){
-    //                     result = x[i];
-    //                     if (x[i] > 0){
-    //                         file.write(String.format("%.4f", x[i]));
-    //                     } else {
-    //                         x[i] *= -1;
-    //                         file.write(" - "+String.format("%.4f", x[i]));
-    //                     }
-    //                 } else if (i > 0 && i < mTemp.row - 1){
-    //                     result = x[i] * m2[i - 1];
-    //                     if (x[i] > 0){
-    //                         file.write(" + "+ String.format("%.4f", x[i]) +"x"+Integer.toString(i));
-    //                     } else {
-    //                         x[i] *= -1;
-    //                         file.write(" - "+ String.format("%.4f", x[i]) +"x"+Integer.toString(i));
-    //                     }
-    //                 } else if (i == mTemp.row - 1){
-    //                     result = x[i] * m2[i - 1];
-    //                     if (x[i] > 0){
-    //                         file.write(" + "+String.format("%.4f", x[i]) +"x"+Integer.toString(i));
-    //                     } else {
-    //                         x[i] *= -1;
-    //                         file.write(" - "+String.format("%.4f", x[i]) +"x"+Integer.toString(i));
-    //                     }
-    //                 }
-    //                 sum += result;
-    //             }
-    //             file.write("\nf(xk) = "+String.format("%.4f", sum));
-    //             file.close();
-    //         } catch (IOException err) {
-    //             err.printStackTrace();
-    //         }
-    //     }
-        
-    // }
 
     //convert matrix ke bentuk SPL
     private static Matrix createSPLMatrix(Matrix m) {
