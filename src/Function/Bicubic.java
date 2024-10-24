@@ -1,15 +1,30 @@
 package Function;
 
 import ADTMatrix.Matrix;
+import IO.Output;
 
 public class Bicubic{
 
     public static void f (Matrix m){
-        int row, col;
+        int row, col, x, y;
 
         for (row = 0; row < 4; row++) {
-            int x = row / 2;
-            int y = row % 2;
+            if (row == 0) {
+                x = 0;
+                y = 0;
+            }
+            else if (row == 2) {
+                x = 1;
+                y = 0;
+            }
+            else if (row == 1) {
+                x = 0;
+                y = 1;
+            }
+            else {
+                x = 1;
+                y = 1;
+            }
             int i = 0, j = 0;
     
             for (col = 0; col < 16; col++) {
@@ -26,11 +41,25 @@ public class Bicubic{
     }
 
     public static void fx (Matrix m){
-        int row, col;
-                
+        int row, col, x, y;
+
         for (row = 4; row < 8; row++) {
-            int x = (row-4) / 2;
-            int y = (row-4) % 2;
+            if (row == 4) {
+                x = 0;
+                y = 0;
+            }
+            else if (row == 5) {
+                x = 1;
+                y = 0;
+            }
+            else if (row == 6) {
+                x = 0;
+                y = 1;
+            }
+            else {
+                x = 1;
+                y = 1;
+            }
             int i = 0, j = 0;
     
             for (col = 0; col < 16; col++){
@@ -51,11 +80,25 @@ public class Bicubic{
     }
 
     public static void fy (Matrix m){
-        int row, col;
+        int row, col, x, y;
 
         for (row = 8; row < 12; row++) {
-            int x = (row-8) / 2;
-            int y = (row-8) % 2;
+            if (row == 8) {
+                x = 0;
+                y = 0;
+            }
+            else if (row == 9) {
+                x = 1;
+                y = 0;
+            }
+            else if (row == 10) {
+                x = 0;
+                y = 1;
+            }
+            else {
+                x = 1;
+                y = 1;
+            }
             int i = 0, j = 0;
     
             for (col = 0; col < 16; col++){
@@ -76,11 +119,25 @@ public class Bicubic{
     }
 
     public static void fxy (Matrix m){
-        int row, col;
-        
+        int row, col, x, y;
+
         for (row = 12; row < 16; row++) {
-            int x = (row-12) / 2;
-            int y = (row-12) % 2;
+            if (row == 12) {
+                x = 0;
+                y = 0;
+            }
+            else if (row == 13) {
+                x = 1;
+                y = 0;
+            }
+            else if (row == 14) {
+                x = 0;
+                y = 1;
+            }
+            else {
+                x = 1;
+                y = 1;
+            }
             int i = 0, j = 0;
     
             for (col = 0; col < 16; col++){
@@ -111,6 +168,12 @@ public class Bicubic{
         fx(m);
         fy(m);
         fxy(m);
+        for (int i =0; i<16; i++){
+            for (int j = 0; j<16; j++){
+                System.out.printf("%.4f ", m.matrix[i][j]);
+            }
+            System.out.println();
+        }
 
         Matrix mInvers = new Matrix();
         mInvers.createMatrix(16,16);
