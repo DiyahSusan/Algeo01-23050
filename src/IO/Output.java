@@ -1,6 +1,7 @@
 package IO;
 import ADTMatrix.Matrix;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -199,81 +200,45 @@ public class Output{
         }
         return opsi;
     }
-
-    // // mengubah hasil invers ke file
-    // public static void OutputInversFile (Matrix m, int opsi){
-    //     Scanner input = new Scanner(System.in);
-    //     BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in));
-
-    //     if (opsi == 1){
-    //         String newfileName = "";
-    //         System.out.print("Masukkan nama file: ");
-    //         try{
-    //             newfileName = inputFile.readLine();
-    //             String path = "Test/Output" + newfileName;
-    //         }
-    //         catch(IOException err){
-    //             err.printStackTrace();
-    //         }
-    //         try{
-    //             FileWriter file = new FileWriter("Test/Output" + newfileName);
-    //             int i, j;
-    //             Matrix newMatrix = new Matrix ();
-    //             newMatrix.createMatrix(m.getRowLength(), m.getColLength());
-    //             for (i = 0; i < m.getRowLength(); i++){
-    //                 for (j = 0; j < m.getColLength(); j++){
-    //                     newMatrix.setElement(i, j, m.getElement(j, j));
-    //                 }
-    //             }
-    //             // ngga ada invers, maka hanya akan ada tulisan invers tidak ada di dalam file
-    //             if (m.getElement(0, 0) == Double.POSITIVE_INFINITY || m.getElement(0, 0) == Double.NEGATIVE_INFINITY){
-    //                 file.write("Invers tidak ada.");
-    //                 file.close();
-    //             }
-    //             // di konvert ke file
-    //             else{
-    //                 for (i = 0; i < m.getRowLength(); i++){
-    //                     for (j = 0; j < m.getColLength(); j++){
-    //                         String tempString = String.format("%.4f", m.getElement(i, j));
-    //                         file.write(tempString + " ");
-    //                     }
-    //                     file.write("\n");
-    //                 }
-    //                 file.close();
-    //             }
-    //         }
-    //         catch(IOException err){
-    //             err.printStackTrace();
-    //         }
-    //     }
     
-    // }
-    
-
-    //mengubah hasil determinan ke bentuk file
     public static void OutputDetFile (String det, int opsi){
-        Scanner input = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in));
         if (opsi == 1){
-            String newFileName = "";
-            System.out.print("Masukkan nama file: ");
-            try{
-                newFileName = inputFile.readLine();
-                String path = "test/Output/" + newFileName;
-            }
-            catch (IOException err){
+            // mencetak output ke dalam bentuk file
+            String nameFile = "";
+            System.out.println("Masukkan nama file: ");
+            try {
+                nameFile = inputFile.readLine();
+                String path = "test/Output/" + nameFile;
+
+                // cek filenya udah ada belum
+                File file = new File(path);
+                if (file.exists()) {
+                    System.out.println("File sudah ada. Apakah Anda ingin menimpanya? (y/n)");
+                    char choice = scanner.next().charAt(0);
+                    if (choice != 'y' && choice != 'Y') {
+                        System.out.println("Output dibatalkan.");
+                        return; //kalau ngga mau jadiin file berarti batal
+                    }
+                }
+                
+                
+            } catch (IOException err) {
                 err.printStackTrace();
             }
 
             try {
-                FileWriter file = new FileWriter("test/Output/" + newFileName);
+                FileWriter file = new FileWriter("test/Output/" + nameFile);
                 file.write("Determinan: " + String.format(det));
                 file.close();
             } catch (IOException err) {
                 err.printStackTrace();
             }
+            System.out.println("File berhasil dibuat!");
         }
     }
+    
 
     public static int caraOutput(boolean salahInput){
         int hasil;
@@ -303,5 +268,55 @@ public class Output{
         System.out.println();
 
         return anu;
+    }
+
+    // mengubah matriks ke file
+    public static void OutputFile (Matrix m, int opsi){
+        Scanner scanner = new Scanner(System.in);
+        BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in));
+
+        if (opsi == 1){
+            String newfileName = "";
+            System.out.print("Masukkan nama file: ");
+            try{
+                newfileName = inputFile.readLine();
+                String path = "test/Output/" + newfileName;
+
+                // cek apakah sudah ada file
+                File file = new File(path);
+                if (file.exists()) {
+                    System.out.println("File sudah ada. Apakah Anda ingin menimpanya? (y/n)");
+                    char choice = scanner.next().charAt(0);
+                    if (choice != 'y' && choice != 'Y') {
+                        System.out.println("Output dibatalkan.");
+                        return; // ngga dibikin file kalau tidak pilih y
+                    }
+                }
+                System.out.println("File berhasil dibuat!");
+
+            }
+            
+            catch(IOException err){
+                err.printStackTrace();
+            }
+            try{
+                FileWriter file = new FileWriter("test/Output/" + newfileName);
+                int i, j;
+                for (i = 0; i < m.getRowLength(); i++){
+                    for (j = 0; j < m.getColLength(); j++){
+                        double value = m.getElement(i, j);
+                        file.write(String.format("%.2f", value));
+                        file.write(" ");
+                    }
+                    file.write("\n");
+                }
+                file.close();
+            }
+            catch(IOException err){
+                err.printStackTrace();
+            }
+            System.out.println("File berhasil dibuat!");
+        }
+    
     }
 }
