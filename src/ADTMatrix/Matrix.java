@@ -1,6 +1,7 @@
 package ADTMatrix;
 
 import Function.*;
+import IO.Output;
 
 public class Matrix{
 
@@ -226,7 +227,7 @@ public class Matrix{
         isAllZero = true;
 
         for (i=0; i<this.col; i++){
-            if(this.matrix[this.row-1][i]!=0){
+            if(Math.abs(this.matrix[this.row-1][i]) > 0.0000000001){
                 isAllZero = false;
             }
         }
@@ -236,15 +237,28 @@ public class Matrix{
     // mengecek bila matriks tidak memiliki solusi dengan prekondisi matriks sudah berbentuk matriks eselon
     public boolean isNoSolution(){
         boolean isAllZero;
-        int i;
+        int i, j;
         isAllZero = true;
 
-        for (i=0; i<this.col-1; i++){
-            if(this.matrix[this.row-1][i]!=0){
-                isAllZero = false;
+        i = this.row-1;
+        while(i>=0){
+
+            isAllZero = true;
+
+            for (j=0; j<this.col-1; j++){
+                if(Math.abs(this.matrix[i][j]) > 0.0000000001){
+                    isAllZero = false;
+                }
+            
             }
+
+            if(isAllZero && (Math.abs(this.matrix[i][this.col-1]) > 0.0000000001)) return true;
+            else if(!isAllZero) return false;
+
+            i-=1;
         }
-        return (isAllZero && (this.matrix[this.row-1][this.col-1]!=0)) ;
+
+        return false;
     }
 
     public Matrix subMatrix(Matrix m, int row, int col){
@@ -345,23 +359,25 @@ public class Matrix{
     // Eliminasi Gauss
     public Matrix gaussElimination(){
         Matrix hasil = this;
+        double pembagi;
 
         int i = 0, j = 0, k;
         while(i<this.row && j < this.col){
 
             k = i+1;
-            while(hasil.matrix[i][j] == 0 && k < this.row){
+            while(Math.abs(hasil.matrix[i][j]) < 0.0000000001 && k < this.row){
                 hasil.rowSwap(i, k);
                 //System.out.println("Menukar karena masih 0\n");
                 k+=1;
             }
 
-            if(hasil.matrix[i][j] == 0){
+            if(Math.abs(hasil.matrix[i][j]) < 0.0000000001){
                 j+=1;
                 continue;
             }
 
-            double pembagi = 1/hasil.matrix[i][j];
+            pembagi = 1/hasil.matrix[i][j];
+
             hasil.multiplyRow(i, pembagi);
             //System.out.println("Membagi dengan " + pembagi);
 
@@ -373,6 +389,8 @@ public class Matrix{
 
                 k+=1;
             }
+
+            //Output.printMatrix(hasil);
 
             i+=1;
             j+=1;
