@@ -230,4 +230,34 @@ public class Input {
         }
         return hasil;
     }
+
+    public static double[][] input_regresi_kuadratik(){
+        
+        double[][] anu = new double[21][4];
+        int i, j;
+        
+        i = 0;
+        while(i<20){
+
+            j = 0;
+            while(j<4){
+
+                anu[i][j] = scanner.nextDouble();
+
+                j+=1;
+            }
+
+            i+=1;
+        }
+
+        i = 0;
+        while(i<3){
+
+            anu[20][i] = scanner.nextDouble();
+
+            i+=1;
+        }
+
+        return anu;
+    }
 }

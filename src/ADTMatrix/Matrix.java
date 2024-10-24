@@ -527,5 +527,23 @@ public class Matrix{
 
     }
 
+    public static Matrix sumMatrix(Matrix m1, Matrix m2){
+        int i, j;
 
+        i = 0;
+        while(i<m1.row){
+
+            j = 0;
+            while(j<m1.col){
+
+                m1.matrix[i][j] += m2.matrix[i][j];
+
+                j+=1;
+            }
+
+            i+=1;
+        }
+
+        return m1;
+    }
 }
