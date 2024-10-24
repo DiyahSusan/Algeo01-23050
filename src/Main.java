@@ -265,7 +265,7 @@ public class Main{
 
                             m = Invers.inversAdjoin(m.copy());
                             
-                            System.out.println("Hasil invers: ");
+                            System.out.println("Hasil invers menggunakan metode adjoin: ");
                             Output.printMatrix(m);
 
                             if(cmd3 == 1){
@@ -285,7 +285,7 @@ public class Main{
 
                             m = Invers.inversMatriksIdentitas(m.copy());
                             
-                            System.out.println("Hasil invers: ");
+                            System.out.println("Hasil invers menggunakan metode matriks identitas: ");
                             Output.printMatrix(m);
 
                             if(cmd3 == 1){
