@@ -320,8 +320,11 @@ public class Main{
                 if(cmd3 == 1){
                     daftarTitik = Input.readInterpolasi();
                 }else if(cmd3 == 2){
-                    daftarTitik = Input.readInterpolasi(); // nanti diganti read yang file
-                    //daftarTitik = Input.readInterpolasiFile();
+                    daftarTitik = Input.input_interpolasi_file();
+                    if(daftarTitik.length == 0){
+                        Output.lanjut();
+                        continue;
+                    }
                 }
 
                 // Cara Output

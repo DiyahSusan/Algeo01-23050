@@ -215,17 +215,49 @@ public class Output{
 
         int len, i;
         String jawaban;
+        boolean pertama;
 
+        pertama = true;
         len = solusi.length;
 
-        jawaban = "y = ";
-        i = 0;
-        while(i<len){
+        jawaban = "f(x) = ";
+        i = len-1;
+        while(i>=0){
 
-            if(i == 0) jawaban += (solusi[i] + " ");
-            else jawaban += ("+ " + solusi[i] + "x^" + i + " ");
+            if(Double.valueOf(solusi[i]) != 0){
 
-            i+=1;
+                if(pertama){
+
+                    if(i == 0){
+
+                        jawaban += solusi[i] + " ";
+
+                    }else{
+
+                        jawaban+=(solusi[i] + "x^" + i + " ");
+
+                    }
+
+                    pertama = false;
+
+                }else{
+
+                    if(i == 0){
+
+                        if(Double.valueOf(solusi[i]) > 0) jawaban += "+ " + solusi[i];
+                        else jawaban += "- " + Math.abs(Double.valueOf(solusi[i]));
+
+                    }else{
+
+                        if(Double.valueOf(solusi[i]) > 0) jawaban += ("+ " + solusi[i] + "x^" + i + " ");
+                        else jawaban += ("- " + Math.abs(Double.valueOf(solusi[i])) + "x^" + i + " ");
+
+                    }                    
+
+                }
+            }
+
+            i-=1;
         }
 
         System.out.println(jawaban);

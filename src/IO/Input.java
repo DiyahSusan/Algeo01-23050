@@ -146,6 +146,59 @@ public class Input {
         }
     }
 
+    public static double[][] input_interpolasi_file(){
+
+        int i, j;
+
+        scanner.nextLine();
+        System.out.print("Masukkan nama file: ");
+        String file = scanner.nextLine();
+        String path = String.format("Test%sInput%s%s", 
+                              File.separator, 
+                              File.separator, 
+                              file);
+                              
+        System.out.println("Reading from: " + path);
+        
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
+            String firstLine = br.readLine();
+            if (firstLine == null) {
+                throw new IOException("File is empty");
+            }
+            
+            double[] firstRow = parseRow(firstLine);
+            double[][] matrix = new double[1][1], temp = new double[1][2];
+            matrix[0] = firstRow;
+            
+            String line;
+            while ((line = br.readLine()) != null) {
+                double[] row = parseRow(line);
+                
+                temp = new double[matrix.length+1][2];
+
+                for (i=0; i<matrix.length; i++){
+                    for (j=0; j<2; j++){
+                        temp[i][j] = matrix[i][j];
+                    }
+                }
+            
+                for (j=0; j<row.length; j++){
+                    temp[matrix.length][j] = row[j];
+                }
+
+                matrix = temp;
+            }
+            
+            return matrix;
+            
+        } catch (IOException ex) { 
+            System.out.println("File tidak ditemukan");
+            System.out.println("Mengembalikan matriks kosong");
+            double[][] anu = new double[0][0];
+            return anu;
+        }
+    }
+
     private static double[] parseRow(String line) {
         return Arrays.stream(line.split("\\s+"))
                     .mapToDouble(Double::parseDouble)
