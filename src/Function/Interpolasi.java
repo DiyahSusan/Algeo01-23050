@@ -7,8 +7,36 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import ADTMatrix.Matrix;
+import IO.Input;
+import IO.Output;
 
 public class Interpolasi{
+
+    private static Scanner input = new Scanner(System.in);
+
+    public static String[] interpolasi_polinomial(double[][] titik){
+
+        int n;
+        String[] hasil = new String[3], temp;
+        double x, y;
+
+        n = titik.length-1;
+
+        temp = Interpolasi.findFunction(titik, n);
+
+        hasil[0] = Output.solusi_interpolasi_polinomial(temp);
+
+        x = titik[n][0];
+        y = Interpolasi.findY(temp, x);
+
+        System.out.println("(" + String.format("%.4f", x) + "," + String.format("%.4f", y) + ")");
+
+        hasil[1] = String.format("%.4f", x);
+        hasil[2] = String.format("%.4f", y);
+
+        return hasil;
+    }
+
     public static String[] findFunction(double[][] titik, int banyakTitik){
         Matrix m = new Matrix();
         m.createMatrix(banyakTitik, banyakTitik+1);
@@ -27,6 +55,7 @@ public class Interpolasi{
             i+=1;
         }
 
+        /*
         i = 0;
         while(i<m.row){
 
@@ -43,6 +72,7 @@ public class Interpolasi{
 
             i+=1;
         }
+            */
 
         return SPL.solve(m);
     }
