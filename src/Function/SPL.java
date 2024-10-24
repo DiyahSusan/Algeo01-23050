@@ -212,7 +212,7 @@ public class SPL{
         m = m.gaussElimination();
 
         if(m.isManySolution()){
-            anu = m.solveManySolution();
+            anu = solveManySolution(m.copy());
             return anu;
         }
 
@@ -229,5 +229,51 @@ public class SPL{
 
         return anu;
     }
+
+    public static String[] solveManySolution(Matrix m){
+        
+        String[] hasil = new String[m.col-1];
+        int i, j, k, jumlahVariabelDiBaris;
+
+        i = 0;
+        while(i<m.col-1){
+            hasil[i] = "t_{" + String.valueOf(i+1) + "}";
+            i+=1;
+        }
+
+        // pokokna algonya jalan dari bawah, kalo variabel ga satu dia hasil - variabel-variabel lain
+
+        i = m.row-1;
+        while(i>=0){
+
+            jumlahVariabelDiBaris = m.howManyVariabelsInRow(i);
+
+            if(jumlahVariabelDiBaris >= 1){
+
+                j = 0;
+                while(Math.abs(m.matrix[i][j]) < 0.0000000001){
+                    j+=1;
+                }
+
+                hasil[j] = String.format("%.4f", m.matrix[i][m.col-1]/m.matrix[i][j]);
+
+                k = j+1;
+                while(k<m.col-1){
+
+                    if(Math.abs(m.matrix[i][k]) > 0.0000000001){
+                        hasil[j] += " + (" + String.format("%.4f", m.matrix[i][k]/m.matrix[i][j]) + "(" + hasil[k] + "))";
+                    }
+
+                    k+=1;
+                }
+
+            }
+
+            i-=1;
+        }
+
+        return hasil;
+    }
+
 
 }
