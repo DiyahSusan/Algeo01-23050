@@ -19,9 +19,9 @@ Sebuah program kalkulator matriks yang dapat digunakan untuk beberapa hal. Terda
 Cara menjalankan program
 Tahapannya adalah clone repository kemudian navigasi ke folder bin lalu jalankan program java
 
-git clone https://github.com/izzatjundy/Algeo01-23050.git
-cd bin
-java main
+- git clone https://github.com/izzatjundy/Algeo01-23050.git
+- cd bin
+- java main
 
 # Program language
 Java
