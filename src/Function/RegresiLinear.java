@@ -187,13 +187,23 @@ public class RegresiLinear{
                 }
                 currentRow++;
             }
+
+            
             br.close();
         } catch (IOException err) {
             err.printStackTrace();
             return; // Keluar jika ada kesalahan
         }
 
-        // Membuat matriks yang memisahkan variabel X dan hasil Y
+        //matrix variabel independennya aja
+        Matrix mNew = new Matrix();
+        mNew.createMatrix(m1.row - 1, m1.col);
+        for(i = 0; i < m1.row - 1; i++){
+            for(j = 0; j < m1.col; j++){
+                mNew.setElement(i, j, m1.matrix[i][j]);
+            }
+        }
+        // nilai yang ingin ditaksir
         m2 = new double[m1.col - 1];
         for(i = 0; i < m2.length; i++){ 
             m2[i] = m1.getElement(m1.row - 1, i);
@@ -201,8 +211,8 @@ public class RegresiLinear{
 
         // membuat matriks baru untuk SPL
         mTemp = new Matrix();
-        mTemp.createMatrix(m1.col, m1.col + 1);
-        mTemp = createSPLMatrix(m1); // Menggunakan matriks m1
+        mTemp.createMatrix(mNew.col, mNew.col + 1);
+        mTemp = createSPLMatrix(mNew); // Menggunakan matriks m1
 
         // melakukan eliminasi Gauss
         mTemp = mTemp.gaussElimination();
