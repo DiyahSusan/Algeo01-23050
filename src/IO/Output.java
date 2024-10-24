@@ -186,7 +186,6 @@ public class Output{
     public static int opsiOutput(){
         Scanner input = new Scanner (System.in);
         BufferedReader inputFile = new BufferedReader(new InputStreamReader((System.in)));
-        header();
         menu_output();
 
         //input opsi
