@@ -1,8 +1,6 @@
 import ADTMatrix.*;
 import Function.*;
 import IO.*;
-
-import java.io.*;
 import java.util.*;
 
 public class Main{
@@ -40,7 +38,7 @@ public class Main{
 
                     System.out.print("> ");
                     cmd2 = input.nextInt();
-
+ 
                     // Input dan Cara Output
                     if(cmd2 >= 1 && cmd2 <= 4){
                         // Cara Input
@@ -188,9 +186,11 @@ public class Main{
 
                         // reduksi baris
                         untukOutput = Determinan.metode_reduksi_baris(m.copy());
+            
 
                         if(cmd3 == 1){
-                            // write file
+                            //file write
+                            Output.OutputDetFile(untukOutput[0], 1);
                         }
 
                         Output.lanjut();
@@ -202,6 +202,7 @@ public class Main{
 
                         if(cmd3 == 1){
                             // write file
+                            Output.OutputDetFile(untukOutput[0], 1);
                         }
 
                         Output.lanjut();
@@ -325,7 +326,7 @@ public class Main{
                     System.out.print("> ");
                     cmd2 = input.nextInt();
                     // Input dan Cara Output
-                    if(cmd2 >= 1 && cmd2 <= 2){
+                    if (cmd2 == 1){
                         // Cara Input
                         cmd3 = Input.caraInput(salahInput);
                         salahInput = false;
@@ -334,26 +335,26 @@ public class Main{
 
                         if(cmd3 == 1){
                             m = Input.readMatrix();
+                            RegresiLinear.regresiLinearKeyboard(m.copy());
                         }else if(cmd3 == 2){
-                            m = Input.readMatrixFile();
+                            RegresiLinear.regresiLinearFile();
                         }
-
-                    }
-                
-                    if(cmd2 == 1){
-
-                        // regresi linear berganda
-                        RegresiLinear.regresiLinearKeyboard(m.copy());
-                        //udah ada opsi write file di dalem fungsinya
-
                         Output.lanjut();
 
                     }else if(cmd2 == 2){
 
-                        // regresi kuadratik berganda
-                        RegresiKuadratik.RegresiKuadratikKeyboard(m.copy());
-                        //udah ada write file di dalem fungsinya
+                        // Cara Input
+                        cmd3 = Input.caraInput(salahInput);
+                        salahInput = false;
 
+                        if(cmd3 == 0) continue;
+
+                        if(cmd3 == 1){
+                            m = Input.readMatrix();
+                            RegresiKuadratik.RegresiKuadratikKeyboard(m.copy());
+                        }else if(cmd3 == 2){
+                            RegresiKuadratik.RegresiKuadratikFile();
+                        }
                         Output.lanjut();
 
                     }else if(cmd2 == 0){

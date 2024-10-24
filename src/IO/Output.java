@@ -210,58 +210,58 @@ public class Output{
         return opsi;
     }
 
-    // mengubah hasil invers ke file
-    public static void OutputInversFile (Matrix m, int opsi){
-        Scanner input = new Scanner(System.in);
-        BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in));
+    // // mengubah hasil invers ke file
+    // public static void OutputInversFile (Matrix m, int opsi){
+    //     Scanner input = new Scanner(System.in);
+    //     BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in));
 
-        if (opsi == 1){
-            String newfileName = "";
-            System.out.print("Masukkan nama file: ");
-            try{
-                newfileName = inputFile.readLine();
-                String path = "Test/Output" + newfileName;
-            }
-            catch(IOException err){
-                err.printStackTrace();
-            }
-            try{
-                FileWriter file = new FileWriter("Test/Output" + newfileName);
-                int i, j;
-                Matrix newMatrix = new Matrix ();
-                newMatrix.createMatrix(m.getRowLength(), m.getColLength());
-                for (i = 0; i < m.getRowLength(); i++){
-                    for (j = 0; j < m.getColLength(); j++){
-                        newMatrix.setElement(i, j, m.getElement(j, j));
-                    }
-                }
-                // ngga ada invers, maka hanya akan ada tulisan invers tidak ada di dalam file
-                if (m.getElement(0, 0) == Double.POSITIVE_INFINITY || m.getElement(0, 0) == Double.NEGATIVE_INFINITY){
-                    file.write("Invers tidak ada.");
-                    file.close();
-                }
-                // di konvert ke file
-                else{
-                    for (i = 0; i < m.getRowLength(); i++){
-                        for (j = 0; j < m.getColLength(); j++){
-                            String tempString = String.format("%.4f", m.getElement(i, j));
-                            file.write(tempString + " ");
-                        }
-                        file.write("\n");
-                    }
-                    file.close();
-                }
-            }
-            catch(IOException err){
-                err.printStackTrace();
-            }
-        }
+    //     if (opsi == 1){
+    //         String newfileName = "";
+    //         System.out.print("Masukkan nama file: ");
+    //         try{
+    //             newfileName = inputFile.readLine();
+    //             String path = "Test/Output" + newfileName;
+    //         }
+    //         catch(IOException err){
+    //             err.printStackTrace();
+    //         }
+    //         try{
+    //             FileWriter file = new FileWriter("Test/Output" + newfileName);
+    //             int i, j;
+    //             Matrix newMatrix = new Matrix ();
+    //             newMatrix.createMatrix(m.getRowLength(), m.getColLength());
+    //             for (i = 0; i < m.getRowLength(); i++){
+    //                 for (j = 0; j < m.getColLength(); j++){
+    //                     newMatrix.setElement(i, j, m.getElement(j, j));
+    //                 }
+    //             }
+    //             // ngga ada invers, maka hanya akan ada tulisan invers tidak ada di dalam file
+    //             if (m.getElement(0, 0) == Double.POSITIVE_INFINITY || m.getElement(0, 0) == Double.NEGATIVE_INFINITY){
+    //                 file.write("Invers tidak ada.");
+    //                 file.close();
+    //             }
+    //             // di konvert ke file
+    //             else{
+    //                 for (i = 0; i < m.getRowLength(); i++){
+    //                     for (j = 0; j < m.getColLength(); j++){
+    //                         String tempString = String.format("%.4f", m.getElement(i, j));
+    //                         file.write(tempString + " ");
+    //                     }
+    //                     file.write("\n");
+    //                 }
+    //                 file.close();
+    //             }
+    //         }
+    //         catch(IOException err){
+    //             err.printStackTrace();
+    //         }
+    //     }
     
-    }
+    // }
     
 
     //mengubah hasil determinan ke bentuk file
-    public static void OutputDetFile (double det, int opsi){
+    public static void OutputDetFile (String det, int opsi){
         Scanner input = new Scanner(System.in);
         BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in));
         if (opsi == 1){
@@ -269,15 +269,15 @@ public class Output{
             System.out.print("Masukkan nama file: ");
             try{
                 newFileName = inputFile.readLine();
-                String path = "Test/Output" + newFileName;
+                String path = "test/Output/" + newFileName;
             }
             catch (IOException err){
                 err.printStackTrace();
             }
 
             try {
-                FileWriter file = new FileWriter("Test/Output" + newFileName);
-                file.write("Determinan: " + String.format("%.4f", det));
+                FileWriter file = new FileWriter("test/Output/" + newFileName);
+                file.write("Determinan: " + String.format(det));
                 file.close();
             } catch (IOException err) {
                 err.printStackTrace();
