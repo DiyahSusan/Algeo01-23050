@@ -1,7 +1,6 @@
 package Function;
 
 import ADTMatrix.Matrix;
-import IO.OutputFile;
 
 public class Bicubic{
 

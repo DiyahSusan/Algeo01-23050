@@ -1,7 +1,6 @@
 package Function;
 import ADTMatrix.Matrix;
 import Function.Determinan;
-import IO.OutputFile;
 
 public class Invers{
 

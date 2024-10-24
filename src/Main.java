@@ -69,13 +69,13 @@ public class Main{
                             untukOutput = SPL.metode_gauss(m.copy());
                         
                             if(cmd3 == 1){ // Jalup entar bikin if else untukOutput-nya kosong (ga ada solusi)
-                                OutputFile.output_spl_file(untukOutput);
+                                Output.output_spl_file(untukOutput);
                             }
                         }else{
                             System.out.println(pesanTidakAdaSolusi);
 
-                            if(cmd3 == 1){ // Jalup entar bikin if else untukOutput-nya kosong (ga ada solusi)
-                                OutputFile.output_spl_file(untukOutput);
+                            if(cmd3 == 1){
+                                Output.output_string_file(pesanTidakAdaSolusi + "\n");
                             }
                         }
 
@@ -87,12 +87,14 @@ public class Main{
                             untukOutput = SPL.metode_gauss_jordan(m.copy());
                         
                             if(cmd3 == 1){ // Jalup entar bikin if else untukOutput-nya kosong (ga ada solusi)
-                                // write file
-                                // pesan berhasil ditulis
+                                Output.output_spl_file(untukOutput);
                             }
                         }else{
                             System.out.println(pesanTidakAdaSolusi);
-                            // write file
+                            
+                            if(cmd3 == 1){
+                                Output.output_string_file(pesanTidakAdaSolusi + "\n");
+                            }
                         }
 
                         Output.lanjut();
@@ -106,7 +108,7 @@ public class Main{
                                 untukOutput = SPL.metode_invers(m.copy());
                                 
                                 if(cmd3 == 1){
-                                    // write file
+                                    Output.output_spl_file(untukOutput);
                                 }
 
                             }else{
@@ -120,7 +122,10 @@ public class Main{
                             System.out.println("Terdapat banyak solusi untuk SPL tersebut.\nMetode matriks balikan tidak dapat digunakan.\nSilakan gunakan metode lain.");
                         }else{
                             System.out.println(pesanTidakAdaSolusi);
-                            // write file
+                            
+                            if(cmd3 == 1){
+                                Output.output_string_file(pesanTidakAdaSolusi + "\n");
+                            }
                         }
 
                         Output.lanjut();
@@ -132,14 +137,17 @@ public class Main{
                             untukOutput = SPL.metode_cramer(m.copy());
                             
                             if(cmd3 == 1){
-                                // write file
+                                Output.output_spl_file(untukOutput);
                             }
 
                         }else if(banyakSolusi){
                             System.out.println("Terdapat banyak solusi untuk SPL tersebut.\nKaidah tidak dapat digunakan.\nSilakan gunakan metode lain.");
                         }else{
                             System.out.println(pesanTidakAdaSolusi);
-                            // write file
+                            
+                            if(cmd3 == 1){
+                                Output.output_string_file(pesanTidakAdaSolusi + "\n");
+                            }
                         }
 
                         Output.lanjut();
@@ -190,9 +198,11 @@ public class Main{
 
                         // reduksi baris
                         untukOutput = Determinan.metode_reduksi_baris(m.copy());
+            
 
                         if(cmd3 == 1){
-                            // write file
+                            //file write
+                            Output.OutputDetFile(untukOutput[0], 1);
                         }
 
                         Output.lanjut();
@@ -204,6 +214,7 @@ public class Main{
 
                         if(cmd3 == 1){
                             // write file
+                            Output.OutputDetFile(untukOutput[0], 1);
                         }
 
                         Output.lanjut();
@@ -257,7 +268,7 @@ public class Main{
                             Output.printMatrix(m);
 
                             if(cmd3 == 1){
-                                OutputFile.OutputFile(m, 1);
+                                Output.OutputFile(m, 1);
                             }
 
                         }else{
@@ -277,7 +288,7 @@ public class Main{
                             Output.printMatrix(m);
 
                             if(cmd3 == 1){
-                                OutputFile.OutputFile(m, 1);
+                                Output.OutputFile(m, 1);
                             }
 
                             Output.lanjut();
@@ -318,11 +329,61 @@ public class Main{
 
                 untukOutput = Interpolasi.interpolasi_polinomial(daftarTitik);
 
+                if(cmd3 == 1){
+                    //Output.output_interpolasi_file(untukOutput);
+                }
+
                 Output.lanjut();
 
-            }else if(cmd1 == 5){
-                // Bikubik
+            }
+                  
 
+            else if (cmd1 == 5) {
+                // Bikubic
+                while(true){
+
+                    Output.menu_bicubic();
+                    
+                    salahInput = Output.pesan_salah_input(salahInput);
+
+                    System.out.print("> ");
+                    cmd2 = input.nextInt();
+
+                    // Input dan Cara Output
+                    if(cmd2 >= 1 && cmd2 <= 2){
+                        // Cara Input
+                        cmd3 = Input.caraInput(salahInput);
+                        salahInput = false;
+
+                        if(cmd3 == 0) continue;
+
+                        if(cmd3 == 1){
+                            m = Input.readMatrix();
+                        }else if(cmd3 == 2){
+                            m = Input.readMatrixFile();
+                        }
+
+                        // Cara Output
+                        cmd3 = Output.caraOutput(salahInput);
+                        salahInput = false;
+                    }
+                
+                    if(cmd2 == 1){
+
+                        // Matriks Identitas
+
+
+                    }else if(cmd2 == 2){
+
+                        // matriks identitas
+
+                    }else if(cmd2 == 0){
+                        break;
+                    }else{
+                        salahInput = true;
+                    }
+
+                }
 
             }else if(cmd1 == 6){
                 // Regresi

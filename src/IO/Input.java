@@ -108,8 +108,12 @@ public class Input {
         scanner.nextLine();
         System.out.print("Masukkan nama file: ");
         String file = scanner.nextLine();
-        String path = "test/Input/" + file;
-        System.out.println(path);
+        String path = String.format("Test%sInput%s%s", 
+                              File.separator, 
+                              File.separator, 
+                              file);
+                              
+        System.out.println("Reading from: " + path);
         
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
             // Read first line to initialize matrix
