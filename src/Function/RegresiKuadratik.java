@@ -4,6 +4,7 @@ import ADTMatrix.Matrix;
 import IO.Output;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -126,33 +127,6 @@ public class RegresiKuadratik {
         }
         System.out.printf(" f(xk) = %.4f\n", sum);
 
-        // System.out.print("f(x) = ");
-        // for (i = 0; i < m1.length; i++) {
-        //     if (i == 0) {
-        //         result = m1[i];
-        //         if (m1[i] > 0) {
-        //             System.out.printf("%.4f ", m1[i]);
-        //         } else {
-        //             System.out.printf("- %.4f ", Math.abs(m1[i]));
-        //         }
-        //     } else if (i == 1) {
-        //         result = m1[i] * x[0];
-        //         if (m1[i] > 0) {
-        //             System.out.printf("+ %.4fx ", m1[i]);
-        //         } else {
-        //             System.out.printf("- %.4fx ", Math.abs(m1[i]));
-        //         }
-        //     } else {
-        //         result = m1[i] * x[0] * x[0];
-        //         if (m1[i] > 0) {
-        //             System.out.printf("+ %.4fx^2 ", m1[i]);
-        //         } else {
-        //             System.out.printf("- %.4fx^2 ", Math.abs(m1[i]));
-        //         }
-        //     }
-        //     sum += result;
-        // }
-        System.out.printf("\nf(xk) = %.4f\n", sum);
 
         // Output
         int opsi = Output.opsiOutput();
@@ -193,6 +167,374 @@ public class RegresiKuadratik {
             }
         }
     }
+
+    public static void RegresiKuadratikFile() {
+        Scanner scanner = new Scanner(System.in);
+        int i, j;
+        double result = 0;
+        double sum = 0;
+        Matrix mTemp;
+        Matrix m1;
+        double[] x;
+        BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in));
+
+        // Membaca file 
+        String fileName = "";
+        System.out.println("Masukkan nama file untuk membaca data: ");
+        try {
+            fileName = inputFile.readLine();
+            // Membaca data dari file
+            FileReader fr = new FileReader("test/Input/" + fileName);
+            BufferedReader br = new BufferedReader(fr);
+
+            // Membaca jumlah baris dan kolom dari file
+            int rowCount = 0;
+            String line;
+            while ((line = br.readLine()) != null) {
+                rowCount++;
+            }
+
+            // Mengatur ulang reader untuk membaca dari awal lagi
+            br.close();
+            fr = new FileReader("test/Input/" + fileName);
+            br = new BufferedReader(fr);
+
+            // Membuat matriks dengan ukuran yang sesuai
+            m1 = new Matrix();
+            String firstLine = br.readLine();
+            String[] firstLineValues = firstLine.split("\\s+"); // Misalnya, nilai dipisahkan oleh spasi
+            int colCount = firstLineValues.length;
+            m1.createMatrix(rowCount, colCount);
+
+            // Membaca isi file ke dalam matriks m1
+            int currentRow = 0;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split("\\s+"); // Misalnya, nilai dipisahkan oleh spasi
+                for (j = 0; j < values.length; j++) {
+                    m1.setElement(currentRow, j, Double.parseDouble(values[j]));
+                }
+                currentRow++;
+            }
+            br.close();
+        } catch (IOException err) {
+            err.printStackTrace();
+            return; // Keluar jika ada kesalahan
+        }
+
+        // Membuat array x yang akan digunakan dalam regresi
+        x = new double[m1.getColLength() - 1]; // Asumsi kolom terakhir adalah y
+        for (i = 0; i < x.length; i++) {
+            x[i] = m1.getElement(m1.getRowLength() - 1, i);
+        }
+
+        // Membuat matriks SPL untuk persamaan kuadratik
+        mTemp = createSPLKuadratik(m1);
+
+        // Melakukan eliminasi Gauss untuk mendapatkan solusi SPL
+        mTemp = mTemp.gaussElimination();
+
+        double[] m3 = new double[mTemp.getRowLength()];
+        Matrix.backSubstitution(mTemp, m3);
+
+        // Menampilkan persamaan kuadratik
+        System.out.print("f(x1, x2) = ");
+        for (i = 0; i < m3.length; i++) {
+            if (i == 0) {
+                // a0 (konstanta)
+                result = m3[i];
+                if (m3[i] > 0) {
+                    System.out.printf("%.4f ", m3[i]);
+                } else {
+                    System.out.printf("- %.4f ", Math.abs(m3[i]));
+                }
+            } else if (i == 1) {
+                // a1 * x1 (linear untuk x1)
+                result = m3[i] * x[0];  // x[0] adalah x1
+                if (m3[i] > 0) {
+                    System.out.printf("+ %.4fx1 ", m3[i]);
+                } else {
+                    System.out.printf("- %.4fx1 ", Math.abs(m3[i]));
+                }
+            } else if (i == 2) {
+                // a2 * x2 (linear untuk x2)
+                result = m3[i] * x[1];  // x[1] adalah x2
+                if (m3[i] > 0) {
+                    System.out.printf("+ %.4fx2 ", m3[i]);
+                } else {
+                    System.out.printf("- %.4fx2 ", Math.abs(m3[i]));
+                }
+            } else if (i == 3) {
+                // a3 * x1^2 (kuadratik untuk x1)
+                result = m3[i] * x[0] * x[0];
+                if (m3[i] > 0) {
+                    System.out.printf("+ %.4fx1^2 ", m3[i]);
+                } else {
+                    System.out.printf("- %.4fx1^2 ", Math.abs(m3[i]));
+                }
+            } else if (i == 4) {
+                // a4 * x2^2 (kuadratik untuk x2)
+                result = m3[i] * x[1] * x[1];
+                if (m3[i] > 0) {
+                    System.out.printf("+ %.4fx2^2 ", m3[i]);
+                } else {
+                    System.out.printf("- %.4fx2^2 ", Math.abs(m3[i]));
+                }
+            } else if (i == 5) {
+                // a5 * x1 * x2 (interaksi antara x1 dan x2)
+                result = m3[i] * x[0] * x[1];
+                if (m3[i] > 0) {
+                    System.out.printf("+ %.4fx1x2 ", m3[i]);
+                } else {
+                    System.out.printf("- %.4fx1x2 ", Math.abs(m3[i]));
+                }
+            }
+            sum += result;  // Menambahkan hasil tiap iterasi ke sum
+        }
+        System.out.printf(" f(xk) = %.4f\n", sum);
+
+        // Output
+        int opsi = Output.opsiOutput();
+        if (opsi == 1) {
+            // Mencetak output ke dalam bentuk file
+            String nameFile = "";
+            System.out.println("Masukkan nama file: ");
+            try {
+                nameFile = inputFile.readLine();
+                String path = "test/Output/" + nameFile;
+
+                // Cek apakah file sudah ada
+                File file = new File(path);
+                if (file.exists()) {
+                    System.out.println("File sudah ada. Apakah Anda ingin menimpanya? (y/n)");
+                    char choice = scanner.next().charAt(0);
+                    if (choice != 'y' && choice != 'Y') {
+                        System.out.println("Output dibatalkan.");
+                        return; // Jika tidak memilih 'y', batalkan
+                    }
+                }
+
+                try (FileWriter fileWriter = new FileWriter(path)) {
+                    fileWriter.write("f(x) = ");
+                    for (i = 0; i < m3.length; i++) {
+                        if (i == 0) {
+                            fileWriter.write(String.format("%.4f ", m3[i]));
+                        } else if (i == 1) {
+                            fileWriter.write(String.format("+ %.4fx ", m3[i]));
+                        } else {
+                            fileWriter.write(String.format("+ %.4fx^2 ", m3[i]));
+                        }
+                    }
+                    fileWriter.write(String.format("\nf(xk) = %.4f\n", sum));
+                }
+            } catch (IOException err) {
+                err.printStackTrace();
+            }
+        }
+    }
+
+
+    // public static void RegresiKuadratikFile(Matrix m) {
+    //     Scanner scanner = new Scanner(System.in);
+    //     int i, j;
+    //     double result = 0;
+    //     double sum = 0;
+    //     Matrix mTemp;
+    //     Matrix m1;
+    //     double[] x;
+    //     BufferedReader inputFile = new BufferedReader(new InputStreamReader(System.in));
+
+    //     //membaca file 
+    //     String fileName = "";
+    //     System.out.println("Masukkan nama file untuk membaca data: ");
+    //     try {
+    //         fileName = inputFile.readLine();
+    //         // Membaca data dari file
+    //         FileReader fr = new FileReader("test/Input/" + fileName);
+    //         BufferedReader br = new BufferedReader(fr);
+            
+    //         // Membaca jumlah baris dan kolom dari file
+    //         int rowCount = 0;
+    //         String line;
+    //         while ((line = br.readLine()) != null) {
+    //             rowCount++;
+    //         }
+
+    //         // Mengatur ulang reader untuk membaca dari awal lagi
+    //         br.close();
+    //         fr = new FileReader("test/Input/" + fileName);
+    //         br = new BufferedReader(fr);
+
+    //         // membuat matriks dengan ukuran yang sesuai
+    //         m1 = new Matrix();
+    //         m1.createMatrix(rowCount, m.col); // Menggunakan jumlah baris yang dibaca dari file
+
+    //         // membaca isi file ke dalam matriks m1
+    //         int currentRow = 0;
+    //         while ((line = br.readLine()) != null) {
+    //             String[] values = line.split("\\s+"); // Misalnya, nilai dipisahkan oleh spasi
+    //             for (j = 0; j < values.length; j++) {
+    //                 m1.setElement(currentRow, j, Double.parseDouble(values[j]));
+    //             }
+    //             currentRow++;
+    //         }
+    //         br.close();
+    //     } catch (IOException err) {
+    //         err.printStackTrace();
+    //         return; // Keluar jika ada kesalahan
+    //     }
+        
+
+    //     // membuat matriks dari file yang diinput
+    //     m1 = new Matrix();
+    //     m1.createMatrix(m.row - 1, m.col);
+    //     for(i = 0; i < m.row - 1; i++){
+    //         for(j = 0; j < m.col; j++){
+    //             m1.setElement(i, j, m.matrix[i][j]);
+    //         }
+    //     }
+
+    //     x = new double[m.col - 1];
+    //     for(i = 0; i < x.length; i++){ 
+    //         x[i] = m.getElement(m.row - 1, i);
+    //     }
+
+    //     // Membuat matriks SPL untuk persamaan kuadratik
+    //     mTemp = createSPLKuadratik(m);
+
+    //     // // Melakukan Eliminasi Gauss
+    //     // mTemp = mTemp.gaussElimination();
+
+    //     // mengubah matrix mnejadi segitiga atas
+    //     int jj ,k;
+    //     for (i=0; i < mTemp.row; i++){
+    //         //jika elemen diagonal 0, cari baris bawahnya untuk ditukar
+    //         if(mTemp.matrix[i][i] == 0){
+    //             jj = i + 1;
+    //             while (jj<mTemp.row && mTemp.matrix[jj][i] == 0){
+    //                 jj++;
+    //             }
+
+    //             if (jj<mTemp.row){
+    //                 //tukar baris
+    //                 for (k=0; k<mTemp.col; k++){
+    //                     double temp = mTemp.matrix[i][k];
+    //                     mTemp.matrix[i][k] = mTemp.matrix[jj][k];
+    //                     mTemp.matrix[jj][k] = temp;
+    //                 }
+    //             }
+    //             // else{
+    //             //     return 0; //jika seluruh kolom di bawah diagonal 0, determinan = 0
+    //             // }
+    //         }
+
+    //         //eliminasi untuk elemen di bawah diagonal
+    //         for (jj=i+1; jj<mTemp.row; jj++){
+    //             double factor = mTemp.matrix[jj][i] / mTemp.matrix[i][i];
+    //             for (k=i; k<mTemp.col; k++){
+    //                 mTemp.matrix[jj][k] -= factor * mTemp.matrix[i][k];
+    //             }
+    //         }
+    //     }
+
+    //     double[] m3 = new double[mTemp.getRowLength()];
+    //     Matrix.backSubstitution(mTemp, m3);
+
+    //     // Menampilkan persamaan kuadratik
+    //     System.out.print("f(x1, x2) = ");
+    //     for (i = 0; i < m3.length; i++) {
+    //         if (i == 0) {
+    //             // a0 (konstanta)
+    //             result = m3[i];
+    //             if (m3[i] > 0) {
+    //                 System.out.printf("%.4f ", m3[i]);
+    //             } else {
+    //                 System.out.printf("- %.4f ", Math.abs(m3[i]));
+    //             }
+    //         } else if (i == 1) {
+    //             // a1 * x1 (linear untuk x1)
+    //             result = m3[i] * x[0];  // x[0] adalah x1
+    //             if (m3[i] > 0) {
+    //                 System.out.printf("+ %.4fx1 ", m3[i]);
+    //             } else {
+    //                 System.out.printf("- %.4fx1 ", Math.abs(m3[i]));
+    //             }
+    //         } else if (i == 2) {
+    //             // a2 * x2 (linear untuk x2)
+    //             result = m3[i] * x[1];  // x[1] adalah x2
+    //             if (m3[i] > 0) {
+    //                 System.out.printf("+ %.4fx2 ", m3[i]);
+    //             } else {
+    //                 System.out.printf("- %.4fx2 ", Math.abs(m3[i]));
+    //             }
+    //         } else if (i == 3) {
+    //             // a3 * x1^2 (kuadratik untuk x1)
+    //             result = m3[i] * x[0] * x[0];
+    //             if (m3[i] > 0) {
+    //                 System.out.printf("+ %.4fx1^2 ", m3[i]);
+    //             } else {
+    //                 System.out.printf("- %.4fx1^2 ", Math.abs(m3[i]));
+    //             }
+    //         } else if (i == 4) {
+    //             // a4 * x2^2 (kuadratik untuk x2)
+    //             result = m3[i] * x[1] * x[1];
+    //             if (m3[i] > 0) {
+    //                 System.out.printf("+ %.4fx2^2 ", m3[i]);
+    //             } else {
+    //                 System.out.printf("- %.4fx2^2 ", Math.abs(m3[i]));
+    //             }
+    //         } else if (i == 5) {
+    //             // a5 * x1 * x2 (interaksi antara x1 dan x2)
+    //             result = m3[i] * x[0] * x[1];
+    //             if (m3[i] > 0) {
+    //                 System.out.printf("+ %.4fx1x2 ", m3[i]);
+    //             } else {
+    //                 System.out.printf("- %.4fx1x2 ", Math.abs(m3[i]));
+    //             }
+    //         }
+    //         sum += result;  // Menambahkan hasil tiap iterasi ke sum
+    //     }
+    //     System.out.printf(" f(xk) = %.4f\n", sum);
+
+
+    //     // Output
+    //     int opsi = Output.opsiOutput();
+    //     if (opsi == 1) {
+    //         // Mencetak output ke dalam bentuk file
+    //         String nameFile = "";
+    //         System.out.println("Masukkan nama file: ");
+    //         try {
+    //             nameFile = inputFile.readLine();
+    //             String path = "test/Output/" + nameFile;
+
+    //             // Cek apakah file sudah ada
+    //             File file = new File(path);
+    //             if (file.exists()) {
+    //                 System.out.println("File sudah ada. Apakah Anda ingin menimpanya? (y/n)");
+    //                 char choice = scanner.next().charAt(0);
+    //                 if (choice != 'y' && choice != 'Y') {
+    //                     System.out.println("Output dibatalkan.");
+    //                     return; // Jika tidak memilih 'y', batalkan
+    //                 }
+    //             }
+
+    //             try (FileWriter fileWriter = new FileWriter(path)) {
+    //                 fileWriter.write("f(x) = ");
+    //                 for (i = 0; i < m3.length; i++) {
+    //                     if (i == 0) {
+    //                         fileWriter.write(String.format("%.4f ", m3[i]));
+    //                     } else if (i == 1) {
+    //                         fileWriter.write(String.format("+ %.4fx ", m3[i]));
+    //                     } else {
+    //                         fileWriter.write(String.format("+ %.4fx^2 ", m3[i]));
+    //                     }
+    //                 }
+    //                 fileWriter.write(String.format("\nf(xk) = %.4f\n", sum));
+    //             }
+    //         } catch (IOException err) {
+    //             err.printStackTrace();
+    //         }
+    //     }
+    // }
 
     // Membuat matriks SPL untuk persamaan kuadratik
     public static Matrix createSPLKuadratik(Matrix m) {
