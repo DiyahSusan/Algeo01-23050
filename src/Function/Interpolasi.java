@@ -12,8 +12,6 @@ import IO.Output;
 
 public class Interpolasi{
 
-    private static Scanner input = new Scanner(System.in);
-
     public static String[] interpolasi_polinomial(double[][] titik){
 
         int n;

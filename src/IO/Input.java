@@ -52,6 +52,7 @@ public class Input {
 
         System.out.print("Masukkan absis (x) dari ordinat (y) yang ingin Anda cari> ");
         m[n][0] = scanner.nextDouble();
+        System.out.println();
 
         return m;
     }

@@ -9,6 +9,7 @@ public class Main{
 
         Scanner input = new Scanner(System.in);
         int cmd1, cmd2, cmd3;
+        double[][] daftarTitik = new double[0][0];
         boolean salahInput, adaSolusi, banyakSolusi;
         String pesanTidakAdaSolusi, ok;
         Matrix m = new Matrix();
@@ -60,6 +61,7 @@ public class Main{
 
                     adaSolusi = !SPL.is_no_solution(m.copy());
                     banyakSolusi = SPL.is_many_solution(m.copy());
+                    untukOutput = new String[1];
                 
                     if(cmd2 == 1){ // GAUSS
 
@@ -67,12 +69,14 @@ public class Main{
                             untukOutput = SPL.metode_gauss(m.copy());
                         
                             if(cmd3 == 1){ // Jalup entar bikin if else untukOutput-nya kosong (ga ada solusi)
-                                // write file
-                                // pesan berhasil ditulis
+                                OutputFile.output_spl_file(untukOutput);
                             }
                         }else{
                             System.out.println(pesanTidakAdaSolusi);
-                            // write file
+
+                            if(cmd3 == 1){ // Jalup entar bikin if else untukOutput-nya kosong (ga ada solusi)
+                                OutputFile.output_spl_file(untukOutput);
+                            }
                         }
 
                         Output.lanjut();
@@ -245,10 +249,45 @@ public class Main{
                     if(cmd2 == 1){
 
                         // adjoin
+                        if(Invers.isInversible(m)){
+
+                            m = Invers.inversAdjoin(m.copy());
+                            
+                            System.out.println("Hasil invers: ");
+                            Output.printMatrix(m);
+
+                            if(cmd3 == 1){
+                                OutputFile.OutputFile(m, 1);
+                            }
+
+                        }else{
+
+                            System.out.println("Matriks tersebut tidak memiliki balikan.\n");
+
+                        }
 
                     }else if(cmd2 == 2){
 
                         // matriks identitas
+                        if(Invers.isInversible(m)){
+
+                            m = Invers.inversMatriksIdentitas(m.copy());
+                            
+                            System.out.println("Hasil invers: ");
+                            Output.printMatrix(m);
+
+                            if(cmd3 == 1){
+                                OutputFile.OutputFile(m, 1);
+                            }
+
+                            Output.lanjut();
+
+                        }else{
+
+                            System.out.println("Matriks tersebut tidak memiliki balikan.\n");
+
+                            Output.lanjut();
+                        }
 
                     }else if(cmd2 == 0){
                         break;
@@ -260,7 +299,26 @@ public class Main{
 
             }else if(cmd1 == 4){
                 // Interpolasi Polinomial
+                // Cara Input
+                cmd3 = Input.caraInput(salahInput);
+                salahInput = false;
 
+                if(cmd3 == 0) continue;
+
+                if(cmd3 == 1){
+                    daftarTitik = Input.readInterpolasi();
+                }else if(cmd3 == 2){
+                    daftarTitik = Input.readInterpolasi(); // nanti diganti read yang file
+                    //daftarTitik = Input.readInterpolasiFile();
+                }
+
+                // Cara Output
+                cmd3 = Output.caraOutput(salahInput);
+                salahInput = false;
+
+                untukOutput = Interpolasi.interpolasi_polinomial(daftarTitik);
+
+                Output.lanjut();
 
             }else if(cmd1 == 5){
                 // Bikubik

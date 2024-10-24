@@ -8,8 +8,6 @@ import java.util.*;
 
 public class Output{
 
-    public static Scanner input = new Scanner(System.in);
-
     public static void header(){
         System.out.println("----------------------------------------");
         System.out.println("");
@@ -246,7 +244,8 @@ public class Output{
                 err.printStackTrace();
             }
         }
-    
+        
+        input.close();
     }
     
 
@@ -273,9 +272,12 @@ public class Output{
                 err.printStackTrace();
             }
         }
+        input.close();
     }
 
     public static int caraOutput(boolean salahInput){
+        Scanner input = new Scanner(System.in);
+
         int hasil;
         while(true){
 
@@ -292,16 +294,19 @@ public class Output{
                 salahInput = true;
             }
         }
+
+        input.close();
         return hasil;
     }
 
-    public static String lanjut(){
+    public static void lanjut(){
+        Scanner wow = new Scanner(System.in);
+
         String anu;
 
         System.out.print("Masukkan apa pun untuk lanjut> ");
-        anu = input.next();
+        anu = wow.next();
         System.out.println();
-
-        return anu;
+        wow.close();
     }
 }
