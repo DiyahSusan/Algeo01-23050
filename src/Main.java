@@ -186,9 +186,11 @@ public class Main{
 
                         // reduksi baris
                         untukOutput = Determinan.metode_reduksi_baris(m.copy());
+            
 
                         if(cmd3 == 1){
-                            // write file
+                            //file write
+                            Output.OutputDetFile(untukOutput[0], 1);
                         }
 
                         Output.lanjut();
@@ -200,6 +202,7 @@ public class Main{
 
                         if(cmd3 == 1){
                             // write file
+                            Output.OutputDetFile(untukOutput[0], 1);
                         }
 
                         Output.lanjut();
