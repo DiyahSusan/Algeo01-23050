@@ -16,8 +16,8 @@ Sebuah program kalkulator matriks yang dapat digunakan untuk beberapa hal. Terda
 6. Regresi linear dan kuadratik berganda
 
 # Installing / Getting ready
-Cara menjalankan program
-Tahapannya adalah clone repository kemudian navigasi ke folder bin lalu jalankan program java
+Cara menjalankan program :
+Tahapannya adalah clone repository kemudian navigasi ke folder bin lalu jalankan program java di terminal
 
 - git clone https://github.com/izzatjundy/Algeo01-23050.git
 - cd bin

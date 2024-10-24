@@ -423,11 +423,16 @@ public class Main{
                         if(cmd3 == 0) continue;
 
                         if(cmd3 == 1){
-                            m = Input.readMatrix();
-                            RegresiKuadratik.RegresiKuadratikKeyboard(m.copy());
+                            //m = Input.readMatrix();
+                            //RegresiKuadratik.RegresiKuadratikKeyboard(m.copy());
+                            daftarTitik = Input.input_regresi_kuadratik();
+                            untukOutput = RegresiKuadratik.regresi_kuadrat_berganda(daftarTitik);
+
+                            //System.out.println(untukOutput[0]);
                         }else if(cmd3 == 2){
                             RegresiKuadratik.RegresiKuadratikFile();
                         }
+
                         Output.lanjut();
 
                     }else if(cmd2 == 0){

@@ -8,9 +8,215 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class RegresiKuadratik {
+
+
+    public static String[] regresi_kuadrat_berganda(double[][] data){
+        int n, row, col, i, j, k, banyakData, p;
+        double y;
+        String[] solusi, hasil;
+
+        // membuat sigma
+        n = data[0].length - 1;
+        banyakData = data.length - 1;
+
+        double[] sigma = new double[n+1], parameter = new double[n];
+
+        i = 0;
+        while(i<n+1){
+
+            sigma[i] = data[0][i];
+
+            j = 1;
+            while(j<banyakData){
+
+                sigma[i] += data[j][i];
+
+                j+=1;
+            }
+
+            i+=1;
+        }
+
+        // membuat matrix
+        row = 1 + 2 * n + (n * (n-1)) / 2;
+        col = row + 1;
+        Matrix m = new Matrix();
+        m.createMatrix(row, col);
+        i = 0;
+        while (i<row) {
+            j = 0;
+            while(j<col){
+                m.matrix[i][j] = 0;
+                j+=1;
+            }
+            i+=1;
+        }
+
+        /*
+        // naro anu
+        i = 1;
+        j = 0;
+        k = 0;
+        while(i<col-1){
+
+            if(i<=n){
+                m.matrix[0][i] = sigma[i-1];
+            }else{
+
+                m.matrix[0][i] = sigma[j] * sigma[k];
+                
+                if(k >= n){
+                    k = j;
+                    j+=1;
+                }
+
+                k+=1;
+            }
+
+            
+            i+=1;
+        }*/
+        Matrix asoy = m.copy();
+
+        p = 0;
+        while(p<data.length-1){
+
+            i = 1;
+            j = 0;
+            k = 1;
+            while(i<col-1){
+            
+                if(i<=n){
+                
+                    m.matrix[0][i] = data[p][i-1];
+                
+                }else if(i<=2*n){
+                
+                    m.matrix[0][i] = data[p][(i-1) % n] * data[p][(i-1) % n];
+                
+                }else{
+                
+                    m.matrix[0][i] = data[p][j] * data[p][k];
+                
+                    k+=1;
+
+                    if(k >= n){
+                        j+=1;
+                        k = j+1;
+                    }
+                }
+            
+                i+=1;
+            }
+        
+            m.matrix[0][i] = data[p][data[p].length - 1];
+        
+            i = 1;
+            while(i<row){
+            
+                m.matrix[i][0] = m.matrix[0][i];
+            
+                i+=1;
+            }
+        
+            m.matrix[0][0] = row-1;
+        
+            i = 1;
+            while(i<row){
+            
+                j = 1;
+                while(j<col){
+                
+                    m.matrix[i][j] = m.matrix[0][j] * m.matrix[i][0];
+                
+                    j+=1;
+                }
+            
+                i+=1;
+            }
+
+            asoy = Matrix.sumMatrix(asoy.copy(), m);
+
+            p+=1;
+        }
+
+        Output.printMatrix(asoy.copy());
+
+        solusi = SPL.solve(asoy.copy());
+
+        // Nyiapin parameter buat dicari y-nya
+        i = 0;
+        while(i<n){
+            parameter[i] = data[data.length - 1][i];
+            i+=1;
+        }
+
+        y = 0;
+        hasil = new String[1+n+1];
+
+        hasil[0] = "f(";
+        i = 0;
+        while(i < n){
+
+            hasil[0] += "x_{" + String.valueOf(i+1) + "}";
+
+            i+=1;
+        }
+        hasil[0] += ") = ";
+
+        if(solusi.length == 0) return hasil;
+
+        hasil[0] += solusi[0];
+        y += Double.valueOf(solusi[0]);
+
+        i = 1;
+        j = 0;
+        k = 1;
+        while(i<col-1){
+
+            if(i<=n){
+
+                hasil[0] += " + " + solusi[i] + "x_{" + String.valueOf(i) + "}";
+                y+= (Double.valueOf(solusi[i]) + parameter[i-1]);
+
+            }else if(i<=2*n){
+
+                hasil[0] += " + " + solusi[i] + "x_{" + String.valueOf(i-n) + "}^2";
+                y+= (Double.valueOf(solusi[i]) + parameter[i-n-1] * parameter[i-n-1]);
+
+            }else{
+
+                hasil[0] += " + " + solusi[i] + "x_{" + String.valueOf(j+1) + "}" + "x_{" + String.valueOf(k+1) + "}";
+                y+= (Double.valueOf(solusi[i]) + parameter[j] * parameter[k]);
+
+                k+=1;
+
+                if(k >= n){
+                    j+=1;
+                    k = j+1;
+                }
+            }
+
+            i+=1;
+        }
+
+        i = 1;
+        while(i<=n){
+
+            hasil[i] = String.format("%.4f", data[row-1][i-1]);
+
+            i+=1;
+        }
+
+        hasil[i] = String.format("%.4f", y);
+        //System.out.println("Ini hasilnya cuy "+y);
+
+        return hasil;
+    }
 
     public static void RegresiKuadratikKeyboard(Matrix m) {
         Scanner scanner = new Scanner(System.in);

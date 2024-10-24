@@ -223,6 +223,8 @@ public class SPL{
 
         m = m.gaussElimination();
 
+        //Output.printMatrix(m.copy());
+
         if(m.isManySolution()){
             anu = solveManySolution(m.copy());
             return anu;
