@@ -1,6 +1,8 @@
 import ADTMatrix.*;
 import Function.*;
 import IO.*;
+
+import java.io.*;
 import java.util.*;
 
 public class Main{
@@ -9,7 +11,6 @@ public class Main{
 
         Scanner input = new Scanner(System.in);
         int cmd1, cmd2, cmd3;
-        double[][] daftarTitik = new double[0][0]; // buat interpolasi
         boolean salahInput, adaSolusi, banyakSolusi;
         String pesanTidakAdaSolusi, ok;
         Matrix m = new Matrix();
@@ -262,28 +263,6 @@ public class Main{
             }else if(cmd1 == 4){
                 // Interpolasi Polinomial
 
-                // Input dan Cara Output
-                // Cara Input
-                cmd3 = Input.caraInput(salahInput);
-                salahInput = false;
-
-                if(cmd3 == 0) continue;
-
-                if(cmd3 == 1){
-                    daftarTitik = Input.readInterpolasi();
-                }else if(cmd3 == 2){
-                    //daftarTitik = Input.readInterpolasiFile();
-                }
-
-                // Cara Output
-                cmd3 = Output.caraOutput(salahInput);
-                salahInput = false;
-
-                untukOutput = Interpolasi.interpolasi_polinomial(daftarTitik);
-
-                if(cmd3 == 1){
-                    // write file
-                }
 
             }else if(cmd1 == 5){
                 // Bikubik
@@ -299,7 +278,6 @@ public class Main{
 
                     System.out.print("> ");
                     cmd2 = input.nextInt();
-
                     // Input dan Cara Output
                     if(cmd2 >= 1 && cmd2 <= 2){
                         // Cara Input
@@ -318,7 +296,7 @@ public class Main{
                 
                     if(cmd2 == 1){
 
-                        // regresi linear
+                        // regresi linear berganda
                         RegresiLinear.regresiLinearKeyboard(m.copy());
                         //udah ada opsi write file di dalem fungsinya
 
@@ -326,7 +304,7 @@ public class Main{
 
                     }else if(cmd2 == 2){
 
-                        // regresi kuadratik
+                        // regresi kuadratik berganda
                         RegresiKuadratik.RegresiKuadratikKeyboard(m.copy());
                         //udah ada write file di dalem fungsinya
 

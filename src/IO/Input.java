@@ -104,6 +104,7 @@ public class Input {
         return matrix;
     }
     public static Matrix readMatrixFile() {
+        scanner.nextLine();
         System.out.print("Masukkan nama file: ");
         String file = scanner.nextLine();
         String path = "test/Input/" + file;
