@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.Paths;
 
 import ADTMatrix.Matrix;
+import IO.Output;
 
 public class Input {
     public static Scanner scanner = new Scanner(System.in);
@@ -58,7 +59,8 @@ public class Input {
     }
 
     public static double[][] readBicubic(){
-        int i,j, x, y;
+        int i,j;
+        double x, y;
         double [][] m;
 
         m = new double[5][4];
@@ -68,19 +70,19 @@ public class Input {
         System.out.println("[fx(0,0),  fx(1,0),  fx(0,1),  fx(1,1) ]");
         System.out.println("[fy(0,0),  fy(1,0),  fy(0,1),  fy(1,1) ]");
         System.out.println("[fxy(0,0), fxy(1,0), fxy(0,1), fxy(1,1)]");
-        for(i = 0; i < 4 + 1; i++){
+        for(i = 0; i < 4 ; i++){
             for(j = 0; j < 4; j++){
                 m[i][j] = scanner.nextDouble();
             }
         }
 
-        System.out.print("Masukkan nilai x: ");
-        x = scanner.nextInt();
-        System.out.print("Masukkan nilai y: ");
-        y = scanner.nextInt();
+        System.out.print("Masukkan nilai x dan y: ");
+        x = scanner.nextDouble();
+        y = scanner.nextDouble();
 
         m[4][0] = x;
-        m[4][2] = y;
+        m[4][1] = y;
+       
 
         return m;
     }
@@ -116,23 +118,19 @@ public class Input {
         System.out.println("Reading from: " + path);
         
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path)))) {
-            // Read first line to initialize matrix
             String firstLine = br.readLine();
             if (firstLine == null) {
                 throw new IOException("File is empty");
             }
             
-            // Initialize matrix with first row
             double[] firstRow = parseRow(firstLine);
             Matrix matrix = new Matrix();
             matrix.createMatrix(1, firstRow.length);
             matrix.matrix = new double[][]{ firstRow };
             
-            // Read remaining rows
             String line;
             while ((line = br.readLine()) != null) {
                 double[] row = parseRow(line);
-                // Pad or truncate row to match matrix width
                 double[] paddedRow = padRow(row, matrix.col);
                 matrix = Matrix.addRow(matrix, paddedRow);
             }
@@ -148,18 +146,15 @@ public class Input {
         }
     }
 
-    // Helper method to parse a line into an array of doubles
     private static double[] parseRow(String line) {
         return Arrays.stream(line.split("\\s+"))
                     .mapToDouble(Double::parseDouble)
                     .toArray();
     }
 
-    // Helper method to pad or truncate a row to the desired length
     private static double[] padRow(double[] row, int targetLength) {
         double[] result = new double[targetLength];
         System.arraycopy(row, 0, result, 0, Math.min(row.length, targetLength));
-        // Remaining elements will be 0 by default
         return result;
     }
 

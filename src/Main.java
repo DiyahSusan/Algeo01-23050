@@ -52,6 +52,7 @@ public class Main{
                             m = Input.readMatrix();
                         }else if(cmd3 == 2){
                             m = Input.readMatrixFile();
+                            Output.printMatrix(m);
                         }
 
                         // Cara Output
@@ -339,51 +340,48 @@ public class Main{
                   
 
             else if (cmd1 == 5) {
+                String hasil;
                 // Bikubic
-                while(true){
 
-                    Output.menu_bicubic();
-                    
-                    salahInput = Output.pesan_salah_input(salahInput);
-
-                    System.out.print("> ");
-                    cmd2 = input.nextInt();
-
-                    // Input dan Cara Output
-                    if(cmd2 >= 1 && cmd2 <= 2){
-                        // Cara Input
-                        cmd3 = Input.caraInput(salahInput);
-                        salahInput = false;
-
-                        if(cmd3 == 0) continue;
-
-                        if(cmd3 == 1){
-                            m = Input.readMatrix();
-                        }else if(cmd3 == 2){
-                            m = Input.readMatrixFile();
-                        }
-
-                        // Cara Output
-                        cmd3 = Output.caraOutput(salahInput);
-                        salahInput = false;
-                    }
+                //Output.menu_bicubic();
                 
-                    if(cmd2 == 1){
+                salahInput = Output.pesan_salah_input(salahInput);
 
-                        // Matriks Identitas
+                // Cara Input
+                cmd3 = Input.caraInput(salahInput);
+                salahInput = false;
 
+                if(cmd3 == 0) continue;
 
-                    }else if(cmd2 == 2){
+                else if(cmd3 == 1){
+                    m.matrix = Input.readBicubic();
 
-                        // matriks identitas
-
-                    }else if(cmd2 == 0){
-                        break;
-                    }else{
-                        salahInput = true;
-                    }
-
+                }else if(cmd3 == 2){
+                    m = Input.readMatrixFile();
+                    Output.printMatrix(m);
                 }
+
+                // Cara Output
+                cmd2 = Output.caraOutput(salahInput);
+                salahInput = false;
+            
+                if(cmd2 == 1){
+                    hasil = String.format("%.4f",Function.Bicubic.BicubicSplineInterpolation(m.matrix));
+                    System.out.println("Hasil :");
+                    Output.fileBicubic(hasil);
+                    Output.lanjut();
+                }else if(cmd2 == 2){
+                    hasil = String.format("%.4f",Function.Bicubic.BicubicSplineInterpolation(m.matrix));
+                    System.out.println("Hasil :");
+                    System.out.println(hasil);
+                    Output.lanjut();
+                }else if(cmd2 == 0){
+                    break;
+                }else{
+                    salahInput = true;
+                }
+
+        
 
             }else if(cmd1 == 6){
                 // Regresi
