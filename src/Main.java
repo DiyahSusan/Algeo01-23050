@@ -264,9 +264,55 @@ public class Main{
                 // Interpolasi Polinomial
 
 
-            }else if(cmd1 == 5){
-                // Bikubik
+            }
+                  
 
+            else if (cmd1 == 5) {
+                // Bikubic
+                while(true){
+
+                    Output.menu_bicubic();
+                    
+                    salahInput = Output.pesan_salah_input(salahInput);
+
+                    System.out.print("> ");
+                    cmd2 = input.nextInt();
+
+                    // Input dan Cara Output
+                    if(cmd2 >= 1 && cmd2 <= 2){
+                        // Cara Input
+                        cmd3 = Input.caraInput(salahInput);
+                        salahInput = false;
+
+                        if(cmd3 == 0) continue;
+
+                        if(cmd3 == 1){
+                            m = Input.readMatrix();
+                        }else if(cmd3 == 2){
+                            m = Input.readMatrixFile();
+                        }
+
+                        // Cara Output
+                        cmd3 = Output.caraOutput(salahInput);
+                        salahInput = false;
+                    }
+                
+                    if(cmd2 == 1){
+
+                        // Matriks Identitas
+
+
+                    }else if(cmd2 == 2){
+
+                        // matriks identitas
+
+                    }else if(cmd2 == 0){
+                        break;
+                    }else{
+                        salahInput = true;
+                    }
+
+                }
 
             }else if(cmd1 == 6){
                 // Regresi

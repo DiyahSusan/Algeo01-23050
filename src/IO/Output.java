@@ -82,6 +82,16 @@ public class Output{
         System.out.println("");
     }
 
+    public static void menu_bicubic(){
+        header();
+        header_menu_metode();
+        System.out.println("1. Metode Matriks Identitas");
+        System.out.println("2. Metode Determinan dan Kofaktor");
+        System.out.println("0. Kembali");
+        System.out.println("");
+    }
+
+
     public static void menu_regresi(){
         header();
         header_menu_regresi();
