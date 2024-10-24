@@ -101,9 +101,12 @@ public class Bicubic{
         
     }
 
-    public static double BicubicSplineInterpolation(double[][] fInput, double x, double y) {
+    public static double BicubicSplineInterpolation(double[][] fInput) {
         Matrix m = new Matrix();
         m.createMatrix(16,16);
+
+        double x = fInput[4][0];
+        double y = fInput[4][1];
 
         f(m);
         fx(m);

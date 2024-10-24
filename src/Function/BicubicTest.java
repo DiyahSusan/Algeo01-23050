@@ -4,10 +4,11 @@ public class BicubicTest {
     public static void main(String[] args) {
         // Define the test 4x4 matrix as input
         double[][] f = {
-            {1.0, 2.0, 3.0, 4.0},
-            {5.0, 6.0, 7.0, 8.0},
-            {9.0, 10.0, 11.0, 12.0},
-            {13.0, 14.0, 15.0, 16.0}
+            {21, 98, 125, 153},
+            {51, 101, 161, 59},
+            {0, 42, 72, 210},
+            {16, 12,81, 96},
+            {0.5,0.5}
         };
 
         // Define the points to interpolate
@@ -15,7 +16,7 @@ public class BicubicTest {
         double y1 = 0.5; // y position to interpolate
 
         // Call the interpolation function
-        double result = Bicubic.BicubicSplineInterpolation(f, x1, y1);
+        double result = Bicubic.BicubicSplineInterpolation(f);
 
         // Output the result
         System.out.println("Interpolated value at (" + x1 + ", " + y1 + ") is: " + result);
