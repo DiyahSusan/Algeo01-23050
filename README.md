@@ -15,7 +15,7 @@ Sebuah program kalkulator matriks yang dapat digunakan untuk beberapa hal. Terda
 5. Interpolasi bicubic spline
 6. Regresi linear dan kuadratik berganda
 
-#Installing / Getting started
+# Installing / Getting ready
 Cara menjalankan program
 Tahapannya adalah clone repository kemudian navigasi ke folder bin lalu jalankan program java
 
@@ -23,5 +23,5 @@ git clone https://github.com/izzatjundy/Algeo01-23050.git
 cd bin
 java main
 
-#Program language
+# Program language
 Java
